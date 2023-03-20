@@ -145,7 +145,7 @@ export default {
                 this.dungeonItems.push(elem);
               })
             })
-    axios.get("http://localhost:8000/api/instances")
+    axios.get("http://etheron.fr:8000/api/instances")
         .then((response) => {
           const tempsInstances = Object.assign([], response.data);
           tempsInstances.forEach(elem => {
