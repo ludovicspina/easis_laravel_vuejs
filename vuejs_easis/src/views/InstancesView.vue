@@ -131,7 +131,7 @@ export default {
     this.getLoginStatus()
   },
   mounted() {
-    axios.get("http://localhost:8000/api/joueurs")
+    axios.get("http://localhost:8080/api/joueurs")
         .then((response) => {
           const tempJoueurs = Object.assign([], response.data);
           tempJoueurs.forEach(elem => {
