@@ -94,7 +94,7 @@ export default {
     this.getLoginStatus()
   },
   mounted() {
-    axios.get("http://localhost:8000/api/cdg")
+    axios.get("http://api.etheron.fr/api/cdg")
         .then((response) => {
           const tempCdg = Object.assign([], response.data);
           tempCdg.forEach(elem => {
@@ -112,7 +112,7 @@ export default {
       this.userRole = JSON.parse(localStorage.getItem('userRole'));
     },
     addOneItem(id) {
-      axios.put('http://localhost:8000/api/cdg/add-one-item/' + id);
+      axios.put('http://api.etheron.fr/api/cdg/add-one-item/' + id);
       this.cdgs_apocalypse.forEach(elem => {
         if (elem.id === id) {
           elem.quantite++;
@@ -128,7 +128,7 @@ export default {
 
     },
     removeOneItem(id) {
-      axios.put('http://localhost:8000/api/cdg/remove-one-item/' + id);
+      axios.put('http://api.etheron.fr/api/cdg/remove-one-item/' + id);
       this.cdgs_apocalypse.forEach(elem => {
             if (elem.id === id) {
               elem.quantite--;
