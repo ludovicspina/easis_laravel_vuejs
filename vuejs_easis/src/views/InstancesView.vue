@@ -152,14 +152,14 @@ export default {
             this.instances.push(elem);
           })
         })
-    axios.get("/api/instances/objets")
+    axios.get("http://api.etheron.fr/api/instances/objets")
         .then((response) => {
           const tempsInstances = Object.assign([], response.data);
           tempsInstances.forEach(elem => {
             this.instancesObjets.push(elem);
           })
         })
-    axios.get("/api/instances/participants")
+    axios.get("http://api.etheron.fr/api/instances/participants")
         .then((response) => {
           const tempsInstances = Object.assign([], response.data);
           tempsInstances.forEach(elem => {
@@ -201,7 +201,7 @@ export default {
     },
     //user login function and api call
     addInstance() {
-      axios.post("/api/instance/add", {
+      axios.post("http://api.etheron.fr/api/instance/add", {
         date: this.date,
         heure: this.heure,
         participants: this.participants,
