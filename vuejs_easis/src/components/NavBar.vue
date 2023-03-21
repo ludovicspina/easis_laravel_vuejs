@@ -71,7 +71,7 @@ export default {
       }
     },
     getUserRole(email) {
-      axios.get("http://127.0.0.1:80/api/users")
+      axios.get("http://localhost:8000/api/users")
           .then((response) => {
             const tempRole = Object.assign([], response.data);
             tempRole.forEach(elem => {
@@ -87,7 +87,7 @@ export default {
     //user login function and api call
     login_user() {
       axios
-          .post('http://127.0.0.1:80/api/login', this.user)
+          .post('http://localhost:8000/api/login', this.user)
           .then((resp) => {
             this.getUserRole(this.user.email);
             this.user.email = '';
