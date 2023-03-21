@@ -4,11 +4,13 @@
     <div></div>
     <a class="flex justify-center gap-5">
       <a href="../" class="hover:scale-125 transition delay-50 text-neutral-200">Accueil</a>
-      <a v-if="userRole >= 60" href="../cdg" class="hover:scale-125 transition delay-50 text-neutral-200">Coffre de guilde</a>
+      <a v-if="userRole >= 60" href="../cdg" class="hover:scale-125 transition delay-50 text-neutral-200">Coffre de
+        guilde</a>
       <a v-if="userRole >= 60" href="../instances" class="hover:scale-125 transition delay-50 text-neutral-200">Instances</a>
-      <a v-if="userRole >= 100" href="../donjons" class="hover:scale-125 transition delay-50 text-neutral-200">Donjons</a>
+      <a v-if="userRole >= 100" href="../donjons"
+         class="hover:scale-125 transition delay-50 text-neutral-200">Donjons</a>
     </a>
-    <div v-if="isLoggedIn === false">
+    <div v-if="(isLoggedIn === false) || (isLoggedIn === null)">
       <form @submit.prevent="login_user" class="flex justify-center items-center">
         <div class="flex gap-1">
           <div class="flex">
@@ -22,8 +24,10 @@
         </div>
         <div class="flex ml-2">
           <button type="submit">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:scale-125 transition delay-50">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="w-5 h-5 hover:scale-125 transition delay-50">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
             </svg>
 
           </button>
@@ -61,8 +65,10 @@ export default {
   },
   methods: {
     getLoginStatus() {
-      this.isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
-      this.userRole = JSON.parse(localStorage.getItem('userRole'));
+      if (this.isLoggedIn != null) {
+        this.isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
+        this.userRole = JSON.parse(localStorage.getItem('userRole'));
+      }
     },
     getUserRole(email) {
       axios.get("http://api.etheron.fr/api/users")
