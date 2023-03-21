@@ -74,6 +74,9 @@ export default {
             })
             this.getLoginStatus()
           })
+          .catch(error => {
+            console.log(error);
+          });
     },
     //user login function and api call
     login_user() {
@@ -90,6 +93,9 @@ export default {
               this.getLoginStatus()
             }
           })
+          .catch(error => {
+            console.log(error);
+          });
     },
     logout() {
       localStorage.setItem('isLoggedIn', false);
