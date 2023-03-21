@@ -21,6 +21,7 @@ return [
 
     'allowed_origins' => ['http://192.168.1.92:5173'],
 
+
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
