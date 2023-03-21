@@ -45,10 +45,6 @@ require __DIR__.'/../vendor/autoload.php';
 */
 
 
-header('Access-Control-Allow-Origin: http://192.168.1.92:5173');
-header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
