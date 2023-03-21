@@ -38,7 +38,7 @@ export default {
     //user login function and api call
     login_user() {
       axios
-          .post('http://localhost:8000/api/login', this.user)
+          .post('http://api.etheron.fr/api/login', this.user)
           .then((resp) => {
             console.log(resp["data"]["status"]);
 

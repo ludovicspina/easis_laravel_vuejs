@@ -33,7 +33,7 @@ export default {
     }
   },
   mounted() {
-    axios.get("http://localhost:8000/api/joueurs")
+    axios.get("http://api.etheron.fr/api/joueurs")
         .then((response) => {
           const tempJoueurs = Object.assign([], response.data);
           tempJoueurs.forEach(elem => {
@@ -45,7 +45,7 @@ export default {
   methods: {
     //user login function and api call
     add_item() {
-      axios.post("http://localhost:8000/api/donjons/createItem", {
+      axios.post("http://api.etheron.fr/api/donjons/createItem", {
         libelle: this.libelle,
         contribution: this.contribution,
         participants: this.participants,
