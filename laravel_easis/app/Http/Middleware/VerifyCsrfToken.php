@@ -12,6 +12,11 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        'http://192.168.1.92:5173',
+        'http://localhost:5173/*',
+        'http://localhost:5173/*/*',
+        'http://localhost:5173/',
+        'localhost:5173/',
+        'http://etheron.fr/',
+        'etheron.fr/',
     ];
 }
