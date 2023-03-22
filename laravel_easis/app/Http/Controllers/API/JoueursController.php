@@ -10,7 +10,7 @@ class JoueursController extends Controller
     public function index()
     {
         $joueurs = DB::Table('joueurs')->select('*')
-            ->orderBy("nombre_donjons", "asc")
+            ->orderBy("nombre_donjons", "desc")
             ->get();
 
         return response()->json($joueurs);
