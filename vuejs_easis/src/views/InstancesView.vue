@@ -1,38 +1,38 @@
 <template>
-    <form @submit.prevent="addInstance" v-if="userRole >= 80">
-      <div class="grid grid-cols-5">
-        <div class="flex flex-col cols-span-1">
-          <div class="grid grid-cols-2">
-            <label>Date</label>
-            <input v-model="date" type="date" class=" text-black" required>
-          </div>
-          <div class="grid grid-cols-2">
-            <label>Heure</label>
-            <input v-model="heure" type="time" class=" text-black" required>
-          </div>
+  <form @submit.prevent="addInstance" v-if="userRole >= 80">
+    <div class="grid grid-cols-5">
+      <div class="flex flex-col cols-span-1">
+        <div class="grid grid-cols-2">
+          <label>Date</label>
+          <input v-model="date" type="date" class=" text-black" required>
         </div>
-
-        <div class="col-span-2 flex justify-center  text-black">
-          <select multiple class="h-64 w-80">
-            <option v-for="objet in dungeonItems" @click="addObjetListing(objet)">
-              {{ objet.libelle }}
-            </option>
-          </select>
-        </div>
-
-        <div class="col-span-2 flex justify-center text-black">
-          <select multiple class="h-64 w-80">
-            <option v-for="joueur in joueurs" :value="joueur"
-                    @click="addJoueurListing(joueur)">
-              {{ joueur.pseudo }}
-            </option>
-          </select>
+        <div class="grid grid-cols-2">
+          <label>Heure</label>
+          <input v-model="heure" type="time" class=" text-black" required>
         </div>
       </div>
-      <div class="flex justify-center mt-2">
-        <button type="submit" class="border rounded px-1 py-0.5 text-2xl hover:scale-125">Valider</button>
+
+      <div class="col-span-2 flex justify-center  text-black">
+        <select multiple class="h-64 w-80">
+          <option v-for="objet in dungeonItems" @click="addObjetListing(objet)">
+            {{ objet.libelle }}
+          </option>
+        </select>
       </div>
-    </form>
+
+      <div class="col-span-2 flex justify-center text-black">
+        <select multiple class="h-64 w-80">
+          <option v-for="joueur in joueurs" :value="joueur"
+                  @click="addJoueurListing(joueur)">
+            {{ joueur.pseudo }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="flex justify-center mt-2">
+      <button type="submit" class="border rounded px-1 py-0.5 text-2xl hover:scale-125">Valider</button>
+    </div>
+  </form>
 
 
   <div class="flex justify-center mt-2">
@@ -96,6 +96,59 @@
         </div>
       </template>
     </div>
+  </div>
+
+  <div v-if="userRole >= 80">
+    <div>
+      <div class="grid grid-cols-10 underline font-bold">
+        <div>
+          Pseudo
+        </div>
+        <div>
+          Carte D
+        </div>
+        <div>
+          Carte C
+        </div>
+        <div>
+          Carte B
+        </div>
+        <div>
+          Carte A
+        </div>
+        <div>
+          Nbr inst
+        </div>
+        <div>
+          Ratio
+        </div>
+      </div>
+    </div>
+    <template v-for="joueur in joueurs">
+        <div class="grid grid-cols-10">
+          <div>
+            {{ joueur.pseudo }}
+          </div>
+          <div>
+            {{ joueur.carte_d }}
+          </div>
+          <div>
+            {{ joueur.carte_c }}
+          </div>
+          <div>
+            {{ joueur.carte_b }}
+          </div>
+          <div>
+            {{ joueur.carte_a }}
+          </div>
+          <div>
+            {{ joueur.nombre_donjons }}
+          </div>
+          <div>
+            {{ calculateRatio(joueur) }}
+          </div>
+        </div>
+    </template>
   </div>
 
 </template>
@@ -169,6 +222,9 @@ export default {
   },
 
   methods: {
+    calculateRatio(joueur) {
+      return (((joueur.carte_d*5) + (joueur.carte_c*5) + (joueur.carte_b*5) + (joueur.carte_a*5)) / joueur.nombre_donjons) * 100;
+    },
 
     getLoginStatus() {
       this.isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
