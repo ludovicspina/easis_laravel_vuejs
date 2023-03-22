@@ -26,8 +26,11 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
+header('Access-Control-Allow-Origin:  *');
+header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');
 
-Route::middleware('cors')->group(function () {
+
     Route::post('/login', function (Request $request) {
         $request->validate([
             'email' => 'required|email',
@@ -42,7 +45,7 @@ Route::middleware('cors')->group(function () {
         $token = $user->createToken('auth');
         return response()->json(['token' => $token->plainTextToken]);
     });
-});
+
 
 // Route::apiResource("cdg", CdgController::class);
 
