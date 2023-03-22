@@ -43,7 +43,7 @@ use Illuminate\Validation\ValidationException;
 //});
 
 
-Route::middleware(\App\Http\Middleware\CorsProxy::class)->get('/login', function (Request $request) {
+Route::middleware(\App\Http\Middleware\CorsMiddleware::class)->get('/login', function (Request $request) {
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
