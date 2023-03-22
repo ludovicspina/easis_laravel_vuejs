@@ -26,7 +26,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-Route::middleware('cors')->group(function () {
 
     Route::post('/login', function (Request $request) {
         $request->validate([
@@ -70,4 +69,3 @@ Route::middleware('cors')->group(function () {
 
     Route::get('/instance/items', [InstancesController::class, 'getDungeonsItems']);
 
-});
