@@ -54,7 +54,7 @@ class InstancesController extends Controller
     public function getInstancesNumber()
     {
         $instances = DB::Table('instance_joueur')
-            ->select('*')
+            ->select('*', DB::raw('count(*) as total'))
             ->get();
         return response()->json($instances);
     }
