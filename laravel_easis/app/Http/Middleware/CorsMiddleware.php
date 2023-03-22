@@ -16,13 +16,20 @@ class CorsMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-//        $response = $next($request);
-//
-//        $response->headers->set('Access-Control-Allow-Origin', 'localhost:5173');
-//        $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE');
-//        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//        $response->headers->set('Access-Control-Allow-Credentials', true);
-//
-//        return $response;
+        header("Access-Control-Allow-Origin: *");
+
+        $headers = [
+            'Access-Control-Allow-Methods'=> 'POST, GET, OPTIONS, PUT, DELETE',
+            'Access-Control-Allow-Headers'=> 'Content-Type, X-Auth-Token, Origin'
+        ];
+        if($request->getMethod() == "OPTIONS") {
+
+            return response()->make('OK', 200, $headers);
+        }
+
+        $response = $next($request);
+        foreach($headers as $key => $value)
+            $response->header($key, $value);
+        return $response;
     }
 }

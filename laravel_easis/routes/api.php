@@ -26,10 +26,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-header('Access-Control-Allow-Origin:  *');
-header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
-header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');
-
+Route::middleware('cors')->group(function () {
 
     Route::post('/login', function (Request $request) {
         $request->validate([
@@ -49,26 +46,28 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
 
 // Route::apiResource("cdg", CdgController::class);
 
-Route::get('/cdg', [CdgController::class, 'index']);
-Route::put('/cdg/add-one-item/{id}', [CdgController::class, 'addOneItem']);
-Route::put('/cdg/remove-one-item/{id}', [CdgController::class, 'removeOneItem']);
+    Route::get('/cdg', [CdgController::class, 'index']);
+    Route::put('/cdg/add-one-item/{id}', [CdgController::class, 'addOneItem']);
+    Route::put('/cdg/remove-one-item/{id}', [CdgController::class, 'removeOneItem']);
 
-Route::get('/joueurs', [JoueursController::class, 'index']);
-Route::put('/joueurs/add-one-item/{id}', [JoueursController::class, 'addOneItem']);
-Route::put('/joueurs/remove-one-item/{id}', [JoueursController::class, 'removeOneItem']);
+    Route::get('/joueurs', [JoueursController::class, 'index']);
+    Route::put('/joueurs/add-one-item/{id}', [JoueursController::class, 'addOneItem']);
+    Route::put('/joueurs/remove-one-item/{id}', [JoueursController::class, 'removeOneItem']);
 
-Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users', [UserController::class, 'index']);
 
-Route::get('/donjons/objets', [DonjonsController::class, 'objets']);
-Route::get('/donjons/objets-joueurs', [DonjonsController::class, 'objetsJoueurs']);
-Route::get('/donjons/count', [DonjonsController::class, 'objetsDonjonsJoueursCount']);
-Route::post('/donjons/createItem', [DonjonsController::class, 'createItem']);
+    Route::get('/donjons/objets', [DonjonsController::class, 'objets']);
+    Route::get('/donjons/objets-joueurs', [DonjonsController::class, 'objetsJoueurs']);
+    Route::get('/donjons/count', [DonjonsController::class, 'objetsDonjonsJoueursCount']);
+    Route::post('/donjons/createItem', [DonjonsController::class, 'createItem']);
 
-Route::get('/instances/all', [InstancesController::class, 'getAll']);
-Route::get('/instances', [InstancesController::class, 'getInstances']);
-Route::get('/instances/objets', [InstancesController::class, 'getInstancesObjets']);
-Route::get('/instances/participants', [InstancesController::class, 'getInstancesParticipants']);
-Route::get('/objets', [InstancesController::class, 'getBase']);
-Route::post('/instance/add', [InstancesController::class, 'addInstance']);
+    Route::get('/instances/all', [InstancesController::class, 'getAll']);
+    Route::get('/instances', [InstancesController::class, 'getInstances']);
+    Route::get('/instances/objets', [InstancesController::class, 'getInstancesObjets']);
+    Route::get('/instances/participants', [InstancesController::class, 'getInstancesParticipants']);
+    Route::get('/objets', [InstancesController::class, 'getBase']);
+    Route::post('/instance/add', [InstancesController::class, 'addInstance']);
 
-Route::get('/instance/items', [InstancesController::class, 'getDungeonsItems']);
+    Route::get('/instance/items', [InstancesController::class, 'getDungeonsItems']);
+
+});
