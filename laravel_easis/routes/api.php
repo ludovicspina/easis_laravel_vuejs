@@ -29,7 +29,7 @@ use Illuminate\Validation\ValidationException;
 
 
 
-    // Sanctum
+
     Route::post('/login', function (Request $request) {
 
         $request->validate([
@@ -48,7 +48,7 @@ use Illuminate\Validation\ValidationException;
         $token = $user->createToken('auth');
         return response()->json(['token' => $token->plainTextToken]);
 
-    });
+    })->middleware('CorsProxy');
 
 
 
