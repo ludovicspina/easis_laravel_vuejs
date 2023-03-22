@@ -1,5 +1,5 @@
 <template>
-    <form v-if="userRole >= 80" @submit.prevent="addInstance">
+    <form @submit.prevent="addInstance">
       <div class="grid grid-cols-5">
         <div class="flex flex-col cols-span-1">
           <div class="grid grid-cols-2">
@@ -35,7 +35,7 @@
     </form>
 
 
-  <div class="flex justify-center mt-2" v-if="userRole >= 80">
+  <div class="flex justify-center mt-2">
     <div class="border p-2 bg-neutral-800 rounded">
       <div class="text-xl underline font-bold">Instance du {{ date }} à {{ heure }}</div>
       <div class="flex gap-2">
