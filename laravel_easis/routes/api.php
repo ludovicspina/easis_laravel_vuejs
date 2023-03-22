@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 
-Route::middleware(['cors'])->group(function () {
+Route::middleware(['sanctum'])->group(function () {
     Route::post('/login', function (Request $request) {
 
         $request->validate([
