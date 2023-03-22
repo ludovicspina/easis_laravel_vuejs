@@ -29,6 +29,7 @@ use Illuminate\Validation\ValidationException;
 
 
 
+    // Sanctum
     Route::post('/login', function (Request $request) {
 
         $request->validate([
