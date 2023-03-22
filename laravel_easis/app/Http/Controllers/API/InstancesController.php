@@ -53,7 +53,7 @@ class InstancesController extends Controller
 
     public function getInstancesNumber()
     {
-        $instances = DB::raw('SELECT COUNT(id_instance) AS inst, id_joueur, pseudo FROM instance_joueur INNER JOIN joueurs ON joueurs.id = instance_joueur.id_joueur GROUP BY id_joueur');
+        $instances = DB::raw('SELECT COUNT(id_instance) AS inst, id_joueur, pseudo FROM instance_joueur INNER JOIN joueurs ON joueurs.id = instance_joueur.id_joueur GROUP BY id_joueur;');
         return response()->json($instances);
     }
 
