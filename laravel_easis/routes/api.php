@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 
-//Route::post('/login', function (Request $request) {
+// Route::post('/login', function (Request $request) {
 //    $request->validate([
 //        'email' => 'required|email',
 //        'password' => 'required',
@@ -43,8 +43,19 @@ use Illuminate\Validation\ValidationException;
 //});
 
 
-Route::middleware('auth:sanctum')->get('/login', function (Request $request) {
-    return $request->user();
+Route::middleware('cors')->get('/login', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+    $user = App\Models\User::where('email', '=', $request->email)->first();
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        throw ValidationException::withMessages([
+            'email' => ['The provided credentials are incorrect.'],
+        ]);
+    }
+    $token = $user->createToken('auth');
+    return response()->json(['token' => $token->plainTextToken]);
 });
 
 
