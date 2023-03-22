@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="addInstance">
+    <form @submit.prevent="addInstance" v-if="userRole >= 80">
       <div class="grid grid-cols-5">
         <div class="flex flex-col cols-span-1">
           <div class="grid grid-cols-2">
