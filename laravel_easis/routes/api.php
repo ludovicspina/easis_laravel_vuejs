@@ -27,21 +27,22 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 
-Route::post('/login', function (Request $request) {
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
-    $user = App\Models\User::where('email', '=', $request->email)->first();
-    if (!$user || !Hash::check($request->password, $user->password)) {
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
+Route::middleware('cors')->group(function () {
+    Route::post('/login', function (Request $request) {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
-    }
-    $token = $user->createToken('auth');
-    return response()->json(['token' => $token->plainTextToken]);
-})->middleware('cors');
-
+        $user = App\Models\User::where('email', '=', $request->email)->first();
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+        $token = $user->createToken('auth');
+        return response()->json(['token' => $token->plainTextToken]);
+    });
+});
 
 // Route::apiResource("cdg", CdgController::class);
 
