@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Passport\HasApiTokens;
 
 
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,8 +27,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 
-
-
+Route::middleware(['cors'])->group(function () {
     Route::post('/login', function (Request $request) {
 
         $request->validate([
@@ -49,8 +47,7 @@ use Illuminate\Validation\ValidationException;
         return response()->json(['token' => $token->plainTextToken]);
 
     });
-
-
+});
 
 // Route::apiResource("cdg", CdgController::class);
 
