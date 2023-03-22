@@ -4,6 +4,9 @@ import router from './router'
 
 import './assets/main.css'
 
+const express = require('express');
+const setHeader = require('setheader');
+
 const app = createApp(App)
 
 app.use((req, res, next) => {
