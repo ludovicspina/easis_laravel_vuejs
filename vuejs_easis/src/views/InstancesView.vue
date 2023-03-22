@@ -131,35 +131,35 @@ export default {
     this.getLoginStatus()
   },
   mounted() {
-    axios.get("http://api.etheron.fr/api/joueurs")
+    axios.get("api/joueurs")
         .then((response) => {
           const tempJoueurs = Object.assign([], response.data);
           tempJoueurs.forEach(elem => {
             this.joueurs.push(elem);
           })
         }),
-        axios.get("http://api.etheron.fr/api/instance/items")
+        axios.get("api/instance/items")
             .then((response) => {
               const tempDungeon = Object.assign([], response.data);
               tempDungeon.forEach(elem => {
                 this.dungeonItems.push(elem);
               })
             })
-    axios.get("http://api.etheron.fr/api/instances")
+    axios.get("api/instances")
         .then((response) => {
           const tempsInstances = Object.assign([], response.data);
           tempsInstances.forEach(elem => {
             this.instances.push(elem);
           })
         })
-    axios.get("http://api.etheron.fr/api/instances/objets")
+    axios.get("api/instances/objets")
         .then((response) => {
           const tempsInstances = Object.assign([], response.data);
           tempsInstances.forEach(elem => {
             this.instancesObjets.push(elem);
           })
         })
-    axios.get("http://api.etheron.fr/api/instances/participants")
+    axios.get("api/instances/participants")
         .then((response) => {
           const tempsInstances = Object.assign([], response.data);
           tempsInstances.forEach(elem => {
@@ -201,7 +201,7 @@ export default {
     },
     //user login function and api call
     addInstance() {
-      axios.post("http://api.etheron.fr/api/instance/add", {
+      axios.post("api/instance/add", {
         date: this.date,
         heure: this.heure,
         participants: this.participants,
