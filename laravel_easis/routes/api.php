@@ -40,7 +40,7 @@ Route::post('/login', function (Request $request) {
     }
     $token = $user->createToken('auth');
     return response()->json(['token' => $token->plainTextToken]);
-});
+})->middleware('cors');
 
 
 // Route::apiResource("cdg", CdgController::class);
