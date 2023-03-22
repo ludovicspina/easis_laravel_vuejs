@@ -4,9 +4,6 @@ import router from './router'
 
 import './assets/main.css'
 
-
-const express = require('express')
-
 const app = createApp(App)
 
 app.use((req, res, next) => {
