@@ -67,6 +67,7 @@ Route::get('/instances/all', [InstancesController::class, 'getAll']);
 Route::get('/instances', [InstancesController::class, 'getInstances']);
 Route::get('/instances/objets', [InstancesController::class, 'getInstancesObjets']);
 Route::get('/instances/participants', [InstancesController::class, 'getInstancesParticipants']);
+Route::get('/instances/nombre', [InstancesController::class, 'getInstancesNumber']);
 Route::get('/objets', [InstancesController::class, 'getBase']);
 Route::post('/instance/add', [InstancesController::class, 'addInstance']);
 

@@ -22,7 +22,8 @@ class InstancesController extends Controller
         return response()->json($instances);
     }
 
-    public function getInstances() {
+    public function getInstances()
+    {
         $instances = DB::Table('instances')->select('*')
             ->orderBy("date", "desc")
             ->get();
@@ -30,7 +31,8 @@ class InstancesController extends Controller
         return response()->json($instances);
     }
 
-    public function getInstancesObjets() {
+    public function getInstancesObjets()
+    {
         $instances = DB::Table('instances')->select('*')
             ->join('instance_objet', 'instance_objet.id_instance', '=', 'instances.id')
             ->join('objets', 'objets.id', '=', 'instance_objet.id_objet')
@@ -39,10 +41,22 @@ class InstancesController extends Controller
         return response()->json($instances);
     }
 
-    public function getInstancesParticipants() {
+    public function getInstancesParticipants()
+    {
         $instances = DB::Table('instances')->select('*')
             ->join('instance_joueur', 'instance_joueur.id_instance', '=', 'instances.id')
             ->join('joueurs', 'joueurs.id', '=', 'instance_joueur.id_joueur')
+            ->get();
+
+        return response()->json($instances);
+    }
+
+    public function getInstancesNumber()
+    {
+
+        $instances = DB::Table('instance_joueur')->select('id_joueur', 'pseudo', DB::raw('COUNT(id_instance) AS inst'))
+            ->join('joueurs', 'joueurs.id', '=', 'instance_joueur.id_joueur')
+            ->groupBy('id_joueur')
             ->get();
 
         return response()->json($instances);
