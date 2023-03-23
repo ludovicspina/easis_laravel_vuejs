@@ -110,7 +110,6 @@ class InstancesController extends Controller
 
 
         foreach ($objets as $objet) {
-
             DB::table('instance_objet')->insert([
                 'id_instance' => $instance,
                 'id_objet' => $objet,

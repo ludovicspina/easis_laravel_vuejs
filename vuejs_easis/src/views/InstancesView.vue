@@ -185,11 +185,17 @@
       <template v-for="objet in instancesObjetsGroup">
         <form @submit.prevent="addRepartition" v-if="userRole >= 80" class="mt-16">
           <div class="flex">
-            <img :src="objet.icon">
-            <div> {{ objet.libelle }} {{ objet.nombre }}</div>
-            <input hidden v-model="objet.id">
-            <select v-model="repartitionJoueur">
-              <option v-for="joueur in joueurs">{{ joueur.pseudo }}</option>
+            <select multiple>
+              <option v-for="objet in instancesObjetsGroup" :value="objet"
+                      @click="addObjetRepartition(objet.id)">
+                {{ objet.libelle }}
+              </option>
+            </select>
+            <select multiple>
+              <option v-for="joueur in joueurs" :value="joueur"
+                      @click="addJoueurRepartition(joueur.id)">
+                {{ joueur.pseudo }}
+              </option>
             </select>
             <button>Donner</button>
           </div>
@@ -227,9 +233,10 @@ export default {
       instancesParticipants: [],
       menu: 10,
 
+      axiosRepartition: [],
 
-      repartitionJoueur: [],
-      repartitionObjet: [],
+      repartitionJoueur: 0,
+      repartitionObjet: 0,
     };
   },
 
@@ -245,26 +252,33 @@ export default {
             this.joueurs.push(elem);
             this.joueursInstance.push(elem);
           })
-        }),
-        axios.get("http://api.etheron.fr/api/joueurs")
-            .then((response) => {
-              const tempJoueurs = Object.assign([], response.data);
-              tempJoueurs.forEach(elem => {
-                this.joueurs.push(elem);
-              })
-            }),
-        axios.get("http://api.etheron.fr/api/instance/items")
-            .then((response) => {
-              const tempDungeon = Object.assign([], response.data);
-              tempDungeon.forEach(elem => {
-                this.dungeonItems.push(elem);
-              })
-            })
+        })
+    axios.get("http://api.etheron.fr/api/joueurs")
+        .then((response) => {
+          const tempJoueurs = Object.assign([], response.data);
+          tempJoueurs.forEach(elem => {
+            this.joueurs.push(elem);
+          })
+        })
+    axios.get("http://api.etheron.fr/api/instance/items")
+        .then((response) => {
+          const tempDungeon = Object.assign([], response.data);
+          tempDungeon.forEach(elem => {
+            this.dungeonItems.push(elem);
+          })
+        })
     axios.get("http://api.etheron.fr/api/instances")
         .then((response) => {
           const tempsInstances = Object.assign([], response.data);
           tempsInstances.forEach(elem => {
             this.instances.push(elem);
+          })
+        })
+    axios.get("http://api.etheron.fr/api/instance/repartition/")
+        .then((response) => {
+          const tempsInstances = Object.assign([], response.data);
+          tempsInstances.forEach(elem => {
+            this.axiosRepartition.push(elem);
           })
         })
     axios.get("http://api.etheron.fr/api/instances/objets")
@@ -346,6 +360,12 @@ export default {
       this.participants.splice(id, 1);
       this.participantsShow.splice(id, 1);
     },
+    addJoueurRepartition(id) {
+      this.repartitionJoueur = id;
+    },
+    addObjetRepartition(id) {
+      this.repartitionObjet = id;
+    },
     //user login function and api call
     addInstance() {
       axios.post("http://api.etheron.fr/api/instance/add", {
@@ -380,6 +400,9 @@ export default {
           .catch((error) => {
             console.log(error);
           });
+
+      console.log(this.repartitionObjet);
+      console.log(this.repartitionJoueur);
 
       // vider les variables et le formulaire
       this.repartitionJoueur = [];
