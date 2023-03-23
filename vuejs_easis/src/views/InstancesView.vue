@@ -1,74 +1,76 @@
 <template>
-  <form @submit.prevent="addInstance" v-if="userRole >= 80">
-    <div class="grid grid-cols-5">
-      <div class="flex flex-col cols-span-1">
-        <div class="grid grid-cols-2">
-          <label>Date</label>
-          <input v-model="date" type="date" class=" text-black" required>
-        </div>
-        <div class="grid grid-cols-2">
-          <label>Heure</label>
-          <input v-model="heure" type="time" class=" text-black" required>
-        </div>
-      </div>
+  <div class="flex flex-col">
+    <form @submit.prevent="addInstance" v-if="userRole >= 80">
+      <div class="flex justify-evenly">
 
-      <div class="col-span-2 flex justify-center  text-black">
-        <select multiple class="h-64 w-80">
-          <option v-for="objet in dungeonItems" @click="addObjetListing(objet)">
-            {{ objet.libelle }}
-          </option>
-        </select>
-      </div>
+        <div class="flex flex-col gap-2 justify-center items-center">
+          <div class="flex flex-col">
+            <label class="text-center">Date</label>
+            <input v-model="date" type="date" class=" text-black" required>
+          </div>
+          <div class="flex flex-col">
+            <label class="text-center">Heure</label>
+            <input v-model="heure" type="time" class=" text-black" required>
+          </div>
+        </div>
 
-      <div class="col-span-2 flex justify-center text-black">
-        <select multiple class="h-64 w-80">
-          <option v-for="joueur in joueurs" :value="joueur"
-                  @click="addJoueurListing(joueur)">
-            {{ joueur.pseudo }}
-          </option>
-        </select>
+        <div class="col-span-3 flex justify-center text-xs grid grid-cols-4 gap-2">
+          <a class="cursor-pointer hover:scale-110 flex justify-center items-center" v-for="objet in dungeonItems"
+             @click="addObjetListing(objet)">
+            <img class="text-center h-6 w-6 flex justify-center items-center" :src="objet.icon" alt="{{ objet.icon }}">
+            <div class="col-span-2 text-center flex justify-center items-center">{{ objet.libelle }}</div>
+          </a>
+        </div>
+
+        <div class="col-span-2 flex justify-center text-black">
+          <select multiple class="h-64 w-80">
+            <option v-for="joueur in joueurs" :value="joueur"
+                    @click="addJoueurListing(joueur)">
+              {{ joueur.pseudo }}
+            </option>
+          </select>
+        </div>
       </div>
-    </div>
+      <div class="flex justify-center mt-2">
+        <button type="submit" class="border rounded px-1 py-0.5 text-2xl hover:scale-125">Valider</button>
+      </div>
+    </form>
+
+
     <div class="flex justify-center mt-2">
-      <button type="submit" class="border rounded px-1 py-0.5 text-2xl hover:scale-125">Valider</button>
-    </div>
-  </form>
-
-
-  <div class="flex justify-center mt-2">
-    <div class="border p-2 bg-neutral-800 rounded">
-      <div class="text-xl underline font-bold">Instance du {{ date }} à {{ heure }}</div>
-      <div class="flex gap-2">
-        <div class="font-semibold">Réalisée par :</div>
-        <div v-for="(participant, index) in participantsShow" class="flex gap-2">
-          <div>{{ participant.pseudo }}</div>
-          <button @click="removeJoueurListing(index)" class="hover:scale-125">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-            </svg>
-          </button>
-          ,
+      <div class="border p-2 bg-neutral-800 rounded">
+        <div class="text-xl underline font-bold">Instance du {{ date }} à {{ heure }}</div>
+        <div class="flex gap-2">
+          <div class="font-semibold">Réalisée par :</div>
+          <div v-for="(participant, index) in participantsShow" class="flex gap-2">
+            <div>{{ participant.pseudo }}</div>
+            <button @click="removeJoueurListing(index)" class="hover:scale-125">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                   stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+              </svg>
+            </button>
+            ,
+          </div>
         </div>
-      </div>
-      <div class="flex gap-2">
-        <div class="font-semibold">Loots obtenus :</div>
-        <div v-for="(objet, index) in objetsShow" class="flex gap-2">
-          <div>{{ objet.libelle }}</div>
-          <button @click="removeObjetListing(objet)" class="hover:scale-125">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-            </svg>
-          </button>
-          ,
+        <div class="flex gap-2">
+          <div class="font-semibold">Loots obtenus :</div>
+          <div v-for="(objet, index) in objetsShow" class="flex gap-2">
+            <div>{{ objet.libelle }}</div>
+            <button @click="removeObjetListing(objet)" class="hover:scale-125">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                   stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+              </svg>
+            </button>
+            ,
+          </div>
         </div>
       </div>
     </div>
   </div>
-
   <div class="flex justify-center m-2" v-for="instance in instances">
     <div class="border p-2 bg-neutral-800 bg-opacity-25 border-neutral-700 rounded w-screen">
       <div class="text-xl underline font-bold">Instance du {{ instance.date }} à {{ instance.heure }}</div>
@@ -125,31 +127,33 @@
       </div>
     </div>
     <template v-for="joueur in joueurs">
-        <div class="grid grid-cols-10">
-          <div>
-            {{ joueur.pseudo }}
-          </div>
-          <div>
-            {{ joueur.carte_d }}
-          </div>
-          <div>
-            {{ joueur.carte_c }}
-          </div>
-          <div>
-            {{ joueur.carte_b }}
-          </div>
-          <div>
-            {{ joueur.carte_a }}
-          </div>
-          <div>
-            {{ joueur.nombre_donjons }}
-          </div>
-          <div>
-            {{ calculateRatio(joueur) }}
-          </div>
+      <div class="grid grid-cols-10">
+        <div>
+          {{ joueur.pseudo }}
         </div>
+        <div>
+          {{ joueur.carte_d }}
+        </div>
+        <div>
+          {{ joueur.carte_c }}
+        </div>
+        <div>
+          {{ joueur.carte_b }}
+        </div>
+        <div>
+          {{ joueur.carte_a }}
+        </div>
+        <div>
+          {{ joueur.nombre_donjons }}
+        </div>
+        <div>
+          {{ calculateRatio(joueur) }}
+        </div>
+      </div>
     </template>
   </div>
+
+  <div>{{ instanceNumber }}</div>
 
 </template>
 
@@ -176,7 +180,6 @@ export default {
       instances: [],
       instancesObjets: [],
       instancesParticipants: [],
-
     };
   },
 
@@ -191,6 +194,13 @@ export default {
             this.joueurs.push(elem);
           })
         }),
+        axios.get("http://api.etheron.fr/api/joueurs")
+            .then((response) => {
+              const tempJoueurs = Object.assign([], response.data);
+              tempJoueurs.forEach(elem => {
+                this.joueurs.push(elem);
+              })
+            }),
         axios.get("http://api.etheron.fr/api/instance/items")
             .then((response) => {
               const tempDungeon = Object.assign([], response.data);
@@ -223,7 +233,7 @@ export default {
 
   methods: {
     calculateRatio(joueur) {
-      return (((joueur.carte_d*5) + (joueur.carte_c*5) + (joueur.carte_b*5) + (joueur.carte_a*5)) / joueur.nombre_donjons) * 100;
+      return (((joueur.carte_d * 5) + (joueur.carte_c * 5) + (joueur.carte_b * 5) + (joueur.carte_a * 5)) / joueur.nombre_donjons) * 100;
     },
 
     getLoginStatus() {

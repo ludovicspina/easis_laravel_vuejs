@@ -139,7 +139,6 @@ class InstancesController extends Controller
 
         $data = DB::table('objets')
             ->select('*')
-            ->orderBy('libelle', 'asc')
             ->get();
 
         return response()->json($data);
