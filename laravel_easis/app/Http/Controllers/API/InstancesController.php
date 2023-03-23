@@ -18,9 +18,30 @@ class InstancesController extends Controller
             ->join('objets', 'objets.id', '=', 'instance_objet.id_objet')
             ->get();
 
-
         return response()->json($instances);
     }
+
+    // lier un objet depuis la table instance_objet à un joueur sur la table instance_repartition
+    public function addRepartition(Request $request)
+    {
+        $id_objet = $request->input('repartitionObjet');
+        $id_joueur = $request->input('repartitionJoueur');
+
+        $repartition = DB::table('instance_repartition')->insert([
+            'id_objet' => $id_objet,
+            'id_joueur' => $id_joueur,
+        ]);
+
+        return response()->json(['message' => 'Objet créé avec succès']);
+    }
+
+    public function getRepartition() {
+        $repartition = DB::Table('instance_repartition')->select('*')
+            ->get();
+
+        return response()->json($repartition);
+    }
+
 
     public function getInstances()
     {

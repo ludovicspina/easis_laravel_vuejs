@@ -73,3 +73,6 @@ Route::post('/instance/add', [InstancesController::class, 'addInstance']);
 
 Route::get('/instance/items', [InstancesController::class, 'getDungeonsItems']);
 
+Route::post('/instance/add-repartition', [InstancesController::class, 'addRepartition']);
+Route::get('/instance/repartition', [InstancesController::class, 'getRepartition']);
+

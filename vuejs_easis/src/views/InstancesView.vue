@@ -7,6 +7,9 @@
     <button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
             v-bind:class="(menu === 1)?'scale-125':''" @click="(menu = 1)">Ratios
     </button>
+    <button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
+            v-bind:class="(menu === 2)?'scale-125':''" @click="(menu = 2)">Répartition
+    </button>
   </div>
   <!-- Formulaire -->
   <template class="flex flex-col" v-if="menu === 0">
@@ -23,12 +26,15 @@
             <input v-model="heure" type="time" class=" text-black" required>
           </div>
           <div class="flex justify-center mt-2">
-            <button type="submit" class="border rounded px-1 py-0.5 text-2xl hover:scale-125 transition delay-50">Valider</button>
+            <button type="submit" class="border rounded px-1 py-0.5 text-2xl hover:scale-125 transition delay-50">
+              Valider
+            </button>
           </div>
         </div>
 
         <div class="col-span-3 flex justify-center text-xs grid grid-cols-4 gap-2">
-          <a class="cursor-pointer hover:scale-110 transition delay-50 flex justify-center items-center" v-for="objet in dungeonItems"
+          <a class="cursor-pointer hover:scale-110 transition delay-50 flex justify-center items-center"
+             v-for="objet in dungeonItems"
              @click="addObjetListing(objet)">
             <img class="text-center h-6 w-6 flex justify-center items-center" :src="objet.icon" alt="{{ objet.icon }}">
             <div class="col-span-2 text-center flex justify-center items-center">{{ objet.libelle }}</div>
@@ -85,27 +91,27 @@
   <!-- Resumé du post -->
   <template v-if="menu === 0">
     <div class="grid grid-cols-2 m-2">
-    <div v-for="instance in instances">
-      <div class="border p-2 bg-neutral-800 bg-opacity-25 border-neutral-700 rounded m-2">
-        <div class="text-xl underline font-bold">Instance du {{ instance.date }} à {{ instance.heure }}</div>
-        <div class="flex gap-2">
-          <div class="font-semibold">Réalisée par :</div>
-          <template v-for="participant in instancesParticipants" class="flex gap-2">
-            <div class="mr-2" v-if="participant.id_instance === instance.id">{{ participant.pseudo }}</div>
-          </template>
-        </div>
-        <div class="flex gap-2">
-          <div class="font-semibold">Loots obtenus :</div>
-          <template v-for="objet in instancesObjets" class="flex gap-2">
-            <img v-if="objet.id_instance === instance.id" class="text-center h-6 w-6 flex justify-center items-center" :src="objet.icon" alt="{{ objet.icon }}">
-            <div v-if="objet.id_instance === instance.id">{{ objet.libelle }}</div>
-          </template>
+      <div v-for="instance in instances">
+        <div class="border p-2 bg-neutral-800 bg-opacity-25 border-neutral-700 rounded m-2">
+          <div class="text-xl underline font-bold">Instance du {{ instance.date }} à {{ instance.heure }}</div>
+          <div class="flex gap-2">
+            <div class="font-semibold">Réalisée par :</div>
+            <template v-for="participant in instancesParticipants" class="flex gap-2">
+              <div class="mr-2" v-if="participant.id_instance === instance.id">{{ participant.pseudo }}</div>
+            </template>
+          </div>
+          <div class="flex gap-2">
+            <div class="font-semibold">Loots obtenus :</div>
+            <template v-for="objet in instancesObjets" class="flex gap-2">
+              <img v-if="objet.id_instance === instance.id" class="text-center h-6 w-6 flex justify-center items-center"
+                   :src="objet.icon" alt="{{ objet.icon }}">
+              <div v-if="objet.id_instance === instance.id">{{ objet.libelle }}</div>
+            </template>
+          </div>
         </div>
       </div>
     </div>
-    </div>
   </template>
-
   <!-- Loots items -->
   <template class="mb-4" v-if="menu === 3">
     <div class="text-xl underline text-center mb-4">Loots totaux:</div>
@@ -117,7 +123,6 @@
       </template>
     </div>
   </template>
-
   <!-- Ratios -->
   <template v-if="menu === 1">
     <div v-if="(userRole >= 80)">
@@ -173,8 +178,26 @@
       </template>
     </div>
   </template>
-
-
+  <!-- Répartition -->
+  <template v-if="menu === 2">
+    <div v-if="(userRole >= 80)">
+      <div>Objets à répartir</div>
+      <template v-for="objet in instancesObjetsGroup">
+        <form @submit.prevent="addRepartition" v-if="userRole >= 80" class="mt-16">
+          <div class="flex">
+            <img :src="objet.icon">
+            <div> {{ objet.libelle }} {{ objet.nombre }}</div>
+            <input hidden v-model="objet.id">
+            <select v-model="repartitionJoueur">
+              <option v-for="joueur in joueurs">{{ joueur.pseudo }}</option>
+            </select>
+            <button>Donner</button>
+          </div>
+        </form>
+      </template>
+      <div>Objets déja répartis</div>
+    </div>
+  </template>
 </template>
 
 
@@ -200,8 +223,13 @@ export default {
 
       instances: [],
       instancesObjets: [],
+      instancesObjetsGroup: [],
       instancesParticipants: [],
       menu: 10,
+
+
+      repartitionJoueur: [],
+      repartitionObjet: [],
     };
   },
 
@@ -245,6 +273,22 @@ export default {
           tempsInstances.forEach(elem => {
             this.instancesObjets.push(elem);
           })
+
+          tempsInstances.forEach(elem => {
+            // si l'objet n'est pas dans le tableau instanceObjetsGroup
+            if (!this.instancesObjetsGroup.some(obj => obj.id === elem.id)) {
+              // on ajoute nombre à l'objet
+              elem.nombre = 1;
+              // et on l'ajoute
+              this.instancesObjetsGroup.push(elem);
+            } else {
+              // sinon on incrémente le nombre
+              this.instancesObjetsGroup.forEach(obj => {
+                if (obj.id === elem.id)
+                  obj.nombre++;
+              })
+            }
+          })
         })
     axios.get("http://api.etheron.fr/api/instances/participants")
         .then((response) => {
@@ -262,7 +306,7 @@ export default {
           tempsInstances.forEach(elem => {
             this.joueursInstance.forEach(joueur => {
               if (joueur.id === elem.id_joueur)
-                joueur.nombre_donjons ++;
+                joueur.nombre_donjons++;
             })
           })
         })
@@ -324,7 +368,23 @@ export default {
       this.objets = [];
       this.participantsShow = [];
       this.objetsShow = [];
-    }
+    },
+    addRepartition() {
+      axios.post("http://api.etheron.fr/api/instance/add-repartition", {
+        repartitionObjet: this.repartitionObjet,
+        repartitionJoueur: this.repartitionJoueur,
+      })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+      // vider les variables et le formulaire
+      this.repartitionJoueur = [];
+      this.repartitionObjet = [];
+    },
   }
   ,
 
