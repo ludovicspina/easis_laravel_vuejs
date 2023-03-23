@@ -10,7 +10,8 @@ class JoueursController extends Controller
     public function index()
     {
         $joueurs = DB::Table('joueurs')->select('*')
-            ->orderBy("pseudo", "desc")
+            // order by pseudo whithout case sensitive
+            ->orderByRaw("LOWER(pseudo) ASC")
             ->get();
 
         return response()->json($joueurs);
