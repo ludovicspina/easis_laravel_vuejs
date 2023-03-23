@@ -138,7 +138,7 @@ class InstancesController extends Controller
 
 
         $data = DB::table('objets')
-            ->select('id')
+            ->select('*')
             ->orderBy('libelle', 'asc')
             ->get();
 
