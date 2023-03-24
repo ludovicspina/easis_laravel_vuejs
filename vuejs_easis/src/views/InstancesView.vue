@@ -182,25 +182,23 @@
   <template v-if="menu === 2">
     <div v-if="(userRole >= 80)">
       <div>Objets à répartir</div>
-      <template v-for="objet in instancesObjetsGroup">
-        <form @submit.prevent="addRepartition" v-if="userRole >= 80" class="mt-16">
-          <div class="flex">
-            <select multiple>
-              <option v-for="objet in instancesObjetsGroup" :value="objet"
-                      @click="addObjetRepartition(objet.id)">
-                {{ objet.libelle }}
-              </option>
-            </select>
-            <select multiple>
-              <option v-for="joueur in joueurs" :value="joueur"
-                      @click="addJoueurRepartition(joueur.id)">
-                {{ joueur.pseudo }}
-              </option>
-            </select>
-            <button>Donner</button>
-          </div>
-        </form>
-      </template>
+      <form @submit.prevent="addRepartition" v-if="userRole >= 80" class="mt-16">
+        <div class="flex">
+          <select multiple>
+            <option v-for="objet in instancesObjetsGroup" :value="objet"
+                    @click="addObjetRepartition(objet.id)">
+              {{ objet.libelle }}
+            </option>
+          </select>
+          <select multiple>
+            <option v-for="joueur in joueurs" :value="joueur"
+                    @click="addJoueurRepartition(joueur.id)">
+              {{ joueur.pseudo }}
+            </option>
+          </select>
+          <button>Donner</button>
+        </div>
+      </form>
       <div>Objets déja répartis</div>
     </div>
   </template>

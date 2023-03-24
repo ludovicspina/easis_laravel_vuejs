@@ -35,7 +35,8 @@ class InstancesController extends Controller
         return response()->json(['message' => 'Objet créé avec succès']);
     }
 
-    public function getRepartition() {
+    public function getRepartition(): \Illuminate\Http\JsonResponse
+    {
         $repartition = DB::Table('instance_repartition')->select('*')
             ->get();
 
