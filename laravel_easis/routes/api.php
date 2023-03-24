@@ -48,6 +48,8 @@ Route::post('/login', function (Request $request) {
 
 // Route::apiResource("cdg", CdgController::class);
 
+Route::get('/instance/repartition', [InstancesController::class, 'getRepartition']);
+
 Route::get('/cdg', [CdgController::class, 'index']);
 Route::put('/cdg/add-one-item/{id}', [CdgController::class, 'addOneItem']);
 Route::put('/cdg/remove-one-item/{id}', [CdgController::class, 'removeOneItem']);
@@ -74,5 +76,5 @@ Route::post('/instance/add', [InstancesController::class, 'addInstance']);
 Route::get('/instance/items', [InstancesController::class, 'getDungeonsItems']);
 
 Route::post('/instance/add-repartition', [InstancesController::class, 'addRepartition']);
-Route::get('/instance/repartition', [InstancesController::class, 'getRepartition']);
+
 

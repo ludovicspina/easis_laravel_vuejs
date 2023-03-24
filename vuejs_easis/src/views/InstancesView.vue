@@ -1,4 +1,7 @@
 <template>
+
+
+   {{ axiosRepartition }}
   <!-- Menu -->
   <div class="flex justify-center gap-10 mt-6 mb-6" v-if="userRole >= 60">
     <button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
