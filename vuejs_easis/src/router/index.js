@@ -5,6 +5,7 @@ import LoginView from "@/views/LoginView.vue";
 import DonjonsView from "@/views/DonjonsView.vue";
 import ObjetsDonjonsView from "@/views/ObjetsDonjonsView.vue";
 import InstancesView from "@/views/InstancesView.vue";
+import RatiosView from "@/views/RatiosView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/instances',
       name: 'instances',
       component: InstancesView
+    },
+    {
+      path: '/instances/ratios',
+      name: 'ratios',
+      component: RatiosView
     },
 
   ]

@@ -123,7 +123,7 @@
       </template>
     </div>
   </template>
-  <!-- Ratios -->
+  <!-- Ratios
   <template v-if="menu === 1">
     <div v-if="(userRole >= 80)">
       <p class="text-xl text-red-600">En cours de completion</p>
@@ -179,6 +179,7 @@
       </template>
     </div>
   </template>
+  -->
   <!-- Répartition -->
   <template v-if="menu === 2">
     <div v-if="(userRole >= 80)">
@@ -412,7 +413,7 @@ export default {
       this.repartitionObjet = id;
     }
     ,
-    //user login function and api call
+    // ajout d'instance
     addInstance() {
       axios.post("http://api.etheron.fr/api/instance/add", {
         date: this.date,
@@ -436,6 +437,7 @@ export default {
       this.objetsShow = [];
     }
     ,
+    // ajout de répartition à un joueur
     addRepartition() {
       axios.post("http://api.etheron.fr/api/instance/add-repartition", {
         repartitionObjet: this.repartitionObjet,
@@ -456,7 +458,6 @@ export default {
       this.repartitionJoueur = [];
       this.repartitionObjet = [];
     }
-    ,
   }
   ,
 
