@@ -7,7 +7,7 @@
       <a v-if="userRole >= 60" href="../cdg" class="hover:scale-125 transition delay-50 text-neutral-200">Coffre de
         guilde</a>
       <a v-if="userRole >= 60" href="../instances" class="hover:scale-125 transition delay-50 text-neutral-200">Instances</a>
-      <a v-if="userRole >= 100" href="../instances/ratios"
+      <a v-if="userRole >= 80" href="../instances/ratios"
          class="hover:scale-125 transition delay-50 text-neutral-200">Ratios</a>
     </a>
     <div v-if="(isLoggedIn === false) || (isLoggedIn === null)">
