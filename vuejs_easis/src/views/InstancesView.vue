@@ -1,7 +1,4 @@
 <template>
-
-
-   {{ axiosRepartition }}
   <!-- Menu -->
   <div class="flex justify-center gap-10 mt-6 mb-6" v-if="userRole >= 60">
     <button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
@@ -129,6 +126,7 @@
   <!-- Ratios -->
   <template v-if="menu === 1">
     <div v-if="(userRole >= 80)">
+      <p class="text-xl text-red-600">En cours de completion</p>
       <div>
         <div class="grid grid-cols-10 underline font-bold">
           <div>
@@ -184,16 +182,19 @@
   <!-- Répartition -->
   <template v-if="menu === 2">
     <div v-if="(userRole >= 80)">
+      <p class="text-xl text-red-600">Fonctionnel mais attention! (répartition déjà faite)</p>
       <div>Objets à répartir</div>
-      <form @submit.prevent="addRepartition" v-if="userRole >= 80" class="mt-16">
+      <form @submit.prevent="addRepartition" class="mt-16">
         <div class="flex">
           <select multiple>
-            <option v-for="objet in instancesObjetsGroup" :value="objet"
-                    @click="addObjetRepartition(objet.id)">
-              {{ objet.libelle }}
-            </option>
+            <template v-for="objet in instancesObjetsGroup">
+              <option :value="objet" v-if="!objet.nombre <=  0"
+                      @click="addObjetRepartition(objet.id)">
+                {{ objet.libelle }}
+              </option>
+            </template>
           </select>
-          <select multiple>
+          <select multiple class="h-64">
             <option v-for="joueur in joueurs" :value="joueur"
                     @click="addJoueurRepartition(joueur.id)">
               {{ joueur.pseudo }}
@@ -202,7 +203,9 @@
           <button>Donner</button>
         </div>
       </form>
-      <div>Objets déja répartis</div>
+
+      <div> {{ repartitionJoueur }}</div>
+      <div> {{ repartitionObjet }}</div>
     </div>
   </template>
 </template>
@@ -235,6 +238,7 @@ export default {
       menu: 10,
 
       axiosRepartition: [],
+      axiosRepartitionGroup: [],
 
       repartitionJoueur: 0,
       repartitionObjet: 0,
@@ -254,13 +258,6 @@ export default {
             this.joueursInstance.push(elem);
           })
         })
-    axios.get("http://api.etheron.fr/api/joueurs")
-        .then((response) => {
-          const tempJoueurs = Object.assign([], response.data);
-          tempJoueurs.forEach(elem => {
-            this.joueurs.push(elem);
-          })
-        })
     axios.get("http://api.etheron.fr/api/instance/items")
         .then((response) => {
           const tempDungeon = Object.assign([], response.data);
@@ -275,21 +272,13 @@ export default {
             this.instances.push(elem);
           })
         })
-    axios.get("http://api.etheron.fr/api/instance/repartition/")
-        .then((response) => {
-          const tempsInstances = Object.assign([], response.data);
-          tempsInstances.forEach(elem => {
-            this.axiosRepartition.push(elem);
-          })
-        })
     axios.get("http://api.etheron.fr/api/instances/objets")
         .then((response) => {
           const tempsInstances = Object.assign([], response.data);
           tempsInstances.forEach(elem => {
             this.instancesObjets.push(elem);
           })
-
-          tempsInstances.forEach(elem => {
+          this.instancesObjets.forEach(elem => {
             // si l'objet n'est pas dans le tableau instanceObjetsGroup
             if (!this.instancesObjetsGroup.some(obj => obj.id === elem.id)) {
               // on ajoute nombre à l'objet
@@ -304,6 +293,51 @@ export default {
               })
             }
           })
+          axios.get("http://api.etheron.fr/api/instance/repartition")
+              .then((response) => {
+                const tempsInstances = Object.assign([], response.data);
+                tempsInstances.forEach(elem => {
+                  this.axiosRepartition.push(elem);
+                })
+                this.axiosRepartition.forEach(repartition => {
+                  this.instancesObjetsGroup.forEach(obj => {
+                    if (obj.id === repartition.id_objet)
+                      obj.nombre--;
+                  })
+                })
+                this.axiosRepartition.forEach(elem => {
+                  // si l'objet n'est pas dans le tableau instanceObjetsGroup
+                  if (!this.axiosRepartitionGroup.some(obj => obj.id === elem.id)) {
+                    // on ajoute nombre à l'objet
+                    elem.nombre = 1;
+                    // et on l'ajoute
+                    this.axiosRepartitionGroup.push(elem);
+                  } else {
+                    // sinon on incrémente le nombre
+                    this.axiosRepartitionGroup.forEach(obj => {
+                      if (obj.id === elem.id)
+                        obj.nombre++;
+                    })
+                  }
+                })
+                this.axiosRepartitionGroup.forEach(elem => {
+                  this.joueurs.forEach(joueur => {
+                    if (joueur.id === elem.id_joueur)
+                      elem.pseudo = joueur.pseudo;
+                  })
+                })
+                var temp = [];
+                // ajouter le nom des objet déjà obtenus par le joueur
+                this.axiosRepartitionGroup.forEach(elem => {
+                  this.instancesObjets.forEach(obj => {
+                    if (obj.id === elem.id_objet)
+                      temp.push(obj.libelle);
+                    console.log(temp);
+                  })
+                  elem
+                })
+
+              })
         })
     axios.get("http://api.etheron.fr/api/instances/participants")
         .then((response) => {
@@ -314,59 +348,70 @@ export default {
         })
     axios.get("http://api.etheron.fr/api/instances/nombre")
         .then((response) => {
-          const tempsInstances = Object.assign([], response.data);
-          this.joueursInstance.forEach(joueur => {
-            joueur.nombre_donjons = 0;
-          })
-          tempsInstances.forEach(elem => {
-            this.joueursInstance.forEach(joueur => {
-              if (joueur.id === elem.id_joueur)
-                joueur.nombre_donjons++;
-            })
-          })
-        })
+              const tempsInstances = Object.assign([], response.data);
+              this.joueursInstance.forEach(joueur => {
+                joueur.nombre_donjons = 0;
+              })
+              tempsInstances.forEach(elem => {
+                this.joueursInstance.forEach(joueur => {
+                  if (joueur.id === elem.id_joueur)
+                    joueur.nombre_donjons++;
+                })
+              })
+
+            }
+        )
   },
 
   methods: {
     calculateRatio(joueur) {
       return (((joueur.carte_d * 5) + (joueur.carte_c * 10) + (joueur.carte_b * 20) + (joueur.carte_a * 50)) / joueur.nombre_donjons) * 100;
-    },
+    }
+    ,
 
     getLoginStatus() {
       this.isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
       this.userRole = JSON.parse(localStorage.getItem('userRole'));
-    },
+    }
+    ,
     filterJoueurs() {
       if (this.participantsFilter.includes('pamp')) {
         return true;
       } else {
         return false;
       }
-    },
+    }
+    ,
 
     addObjetListing(objet) {
       this.objets.push(objet.id);
       this.objetsShow.push(objet);
-    },
+    }
+    ,
     removeObjetListing(id) {
       this.objets.splice(id, 1);
       this.objetsShow.splice(id, 1);
-    },
+    }
+    ,
 
     addJoueurListing(joueur) {
       this.participants.push(joueur.id);
       this.participantsShow.push(joueur);
-    },
+    }
+    ,
     removeJoueurListing(id) {
       this.participants.splice(id, 1);
       this.participantsShow.splice(id, 1);
-    },
+    }
+    ,
     addJoueurRepartition(id) {
       this.repartitionJoueur = id;
-    },
+    }
+    ,
     addObjetRepartition(id) {
       this.repartitionObjet = id;
-    },
+    }
+    ,
     //user login function and api call
     addInstance() {
       axios.post("http://api.etheron.fr/api/instance/add", {
@@ -389,7 +434,8 @@ export default {
       this.objets = [];
       this.participantsShow = [];
       this.objetsShow = [];
-    },
+    }
+    ,
     addRepartition() {
       axios.post("http://api.etheron.fr/api/instance/add-repartition", {
         repartitionObjet: this.repartitionObjet,
@@ -401,14 +447,16 @@ export default {
           .catch((error) => {
             console.log(error);
           });
-
-      console.log(this.repartitionObjet);
-      console.log(this.repartitionJoueur);
+      this.instancesObjetsGroup.forEach(obj => {
+        if (obj.id === this.repartitionObjet)
+          obj.nombre--;
+      })
 
       // vider les variables et le formulaire
       this.repartitionJoueur = [];
       this.repartitionObjet = [];
-    },
+    }
+    ,
   }
   ,
 
