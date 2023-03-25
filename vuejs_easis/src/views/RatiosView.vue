@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-center items-center" v-if="userRole >= 80">
+  <div class="flex flex-col justify-center items-center">
     <div class="grid grid-cols-4 w-1/3 bg-gradient-to-b from-neutral-700 to-neutral-800 rounded-t">
       <div class="flex justify-center">Pseudo</div>
       <div class="flex flex-col justify-center items-center">
