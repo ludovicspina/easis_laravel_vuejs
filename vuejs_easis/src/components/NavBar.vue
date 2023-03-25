@@ -10,7 +10,7 @@
       <a href="../instances/ratios"
          class="hover:scale-125 transition delay-50 text-neutral-200">Ratios</a>
     </a>
-    <div v-if="(isLoggedIn === false) || (isLoggedIn === null)">
+    <div v-if="(isLoggedIn === false) || (isLoggedIn === null)" class="scale-50 md:scale-100">
       <form @submit.prevent="login_user" class="flex justify-center items-center">
         <div class="flex gap-1">
           <div class="flex">

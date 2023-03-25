@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col justify-center items-center">
-    <div class="grid grid-cols-4 w-1/3 bg-gradient-to-b from-neutral-700 to-neutral-800 rounded-t">
+    <div class="grid grid-cols-4 md:w-2/4 w-screen text-xs md:text-base bg-gradient-to-b from-neutral-700 to-neutral-800 rounded-t">
       <div class="flex justify-center">Pseudo</div>
       <div class="flex flex-col justify-center items-center">
         <div>Cartes</div>
@@ -14,11 +14,11 @@
       <div class="flex justify-center">Nbr inst</div>
       <div class="flex justify-center">Ratio</div>
     </div>
-    <div class="w-1/3 bg-neutral-800">
+    <div class="md:w-2/4 w-screen text-xs md:text-base bg-neutral-800">
       <template v-for="joueur in joueursParticipationInstances">
         <div class="mb-1 grid grid-cols-4 hover:scale-125 cursor-pointer py-0.5 hover:bg-neutral-800 hover:shadow hover:rounded transition delay-50">
           <div class="flex justify-center">
-            <div class="flex justify-center items-center gap-1">
+            <div class="flex justify-center items-center gap-1 overflow-x-hidden">
               <img :src="joueur.choix_instance" :alt="joueur.choix_instance" class="h-4">
               {{ joueur.pseudo }}
             </div>
