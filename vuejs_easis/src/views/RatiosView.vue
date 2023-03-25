@@ -16,8 +16,13 @@
     </div>
     <div class="w-1/3 bg-neutral-800">
       <template v-for="joueur in joueursParticipationInstances">
-        <div class="mb-1 grid grid-cols-4">
-          <div class="flex justify-center">{{ joueur.pseudo }}</div>
+        <div class="mb-1 grid grid-cols-4 hover:scale-125 cursor-pointer py-0.5 hover:bg-neutral-800 hover:shadow hover:rounded transition delay-50">
+          <div class="flex justify-center">
+            <div class="flex justify-center items-center gap-1">
+              <img :src="joueur.choix_instance" :alt="joueur.choix_instance" class="h-4">
+              {{ joueur.pseudo }}
+            </div>
+          </div>
           <div class="flex flex-col justify-center items-center">
             <div class="grid grid-cols-4 gap-4">
               <div v-bind:class="(joueur.carte_a > 0)?'text-neutral-100':'text-neutral-700'">{{ joueur.carte_a }}</div>
@@ -26,8 +31,12 @@
               <div v-bind:class="(joueur.carte_d > 0)?'text-neutral-100':'text-neutral-700'">{{ joueur.carte_d }}</div>
             </div>
           </div>
-          <div v-bind:class="(joueur.nombre_instances > 0)?'text-neutral-100':'text-neutral-700'" class="flex justify-center">{{ joueur.nombre_instances }}</div>
-          <div class="flex justify-center" v-bind:class="(calcRatio(joueur) > 0)?'text-neutral-100':'text-neutral-700'">{{ calcRatio(joueur) }}</div>
+          <div v-bind:class="(joueur.nombre_instances > 0)?'text-neutral-100':'text-neutral-700'"
+               class="flex justify-center">{{ joueur.nombre_instances }}
+          </div>
+          <div class="flex justify-center" v-bind:class="(calcRatio(joueur) > 0)?'text-neutral-100':'text-neutral-700'">
+            {{ calcRatio(joueur) }}
+          </div>
         </div>
       </template>
     </div>
@@ -59,6 +68,7 @@ export default {
     this.fusionJoueursParticipation();
     this.fusionObjetRepartition();
     this.fusionJoueursRepartition();
+    this.fusionJoueurSelection();
   },
   methods: {
     getLoginStatus() {
@@ -128,7 +138,17 @@ export default {
     },
     calcRatio(joueur) {
       return ((((joueur.carte_d * 5) + (joueur.carte_c * 10) + (joueur.carte_b * 20) + (joueur.carte_a * 50)) / joueur.nombre_instances) * 100).toFixed(2);
-    }
+    },
+    fusionJoueurSelection(joueur) {
+      this.joueursParticipationInstances.forEach(joueur => {
+        this.axiosObjets.forEach(objet => {
+          if (joueur.choix_instance === objet.id) {
+            joueur.choix_instance = objet.icon;
+            joueur.libelle_objet = objet.libelle;
+          }
+        })
+      })
+    },
   },
 }
 </script>

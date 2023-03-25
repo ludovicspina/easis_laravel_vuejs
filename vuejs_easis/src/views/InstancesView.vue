@@ -4,9 +4,11 @@
     <button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
             v-bind:class="(menu === 0)?'scale-125':''" @click="(menu = 0)">Add/List Instances
     </button>
+    <!--
     <button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
             v-bind:class="(menu === 1)?'scale-125':''" @click="(menu = 1)">Ratios
     </button>
+    -->
     <button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
             v-bind:class="(menu === 2)?'scale-125':''" @click="(menu = 2)">Répartition
     </button>
