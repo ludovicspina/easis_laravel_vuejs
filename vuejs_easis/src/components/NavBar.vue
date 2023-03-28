@@ -1,6 +1,6 @@
 <template>
   <div
-      class="grid grid-cols-3 justify-evenly gap-5 py-4 border-opacity-50 bg-gradient-to-b from-neutral-800 to-neutral-900 bg-opacity-10">
+      class="grid grid-cols-3 justify-evenly gap-5 py-4 border-opacity-50 bg-opacity-10">
     <div></div>
     <a class="flex justify-center gap-5">
       <a href="../" class="hover:scale-125 transition delay-50 text-neutral-200">Accueil</a>

@@ -128,63 +128,7 @@
       </template>
     </div>
   </template>
-  <!-- Ratios
-  <template v-if="menu === 1">
-    <div v-if="(userRole >= 80)">
-      <p class="text-xl text-red-600">En cours de completion</p>
-      <div>
-        <div class="grid grid-cols-10 underline font-bold">
-          <div>
-            Pseudo
-          </div>
-          <div>
-            Carte D
-          </div>
-          <div>
-            Carte C
-          </div>
-          <div>
-            Carte B
-          </div>
-          <div>
-            Carte A
-          </div>
-          <div>
-            Nbr inst
-          </div>
-          <div>
-            Ratio
-          </div>
-        </div>
-      </div>
-      <template v-for="joueur in joueursInstance">
-        <div class="grid grid-cols-10">
-          <div>
-            {{ joueur.pseudo }}
-          </div>
-          <div>
-            {{ joueur.carte_d }}
-          </div>
-          <div>
-            {{ joueur.carte_c }}
-          </div>
-          <div>
-            {{ joueur.carte_b }}
-          </div>
-          <div>
-            {{ joueur.carte_a }}
-          </div>
-          <div>
-            {{ joueur.nombre_donjons }}
-          </div>
-          <div>
-            {{ calculateRatio(joueur) }}
-          </div>
-        </div>
-      </template>
-    </div>
-  </template>
-  -->
+
 </template>
 
 
