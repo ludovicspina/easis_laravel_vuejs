@@ -1,17 +1,20 @@
 <template>
   <!-- Menu -->
+
   <div class="flex justify-center gap-10 mt-6 mb-6" v-if="userRole >= 60">
-    <button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
-            v-bind:class="(menu === 0)?'scale-125':''" @click="(menu = 0)">Add/List Instances
-    </button>
     <!--
-    <button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
-            v-bind:class="(menu === 1)?'scale-125':''" @click="(menu = 1)">Ratios
-    </button>
-    -->
-    <button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
-            v-bind:class="(menu === 2)?'scale-125':''" @click="(menu = 2)">Répartition
-    </button>
+<button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
+        v-bind:class="(menu === 0)?'scale-125':''" @click="(menu = 0)">Add/List Instances
+</button>
+
+<button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
+        v-bind:class="(menu === 1)?'scale-125':''" @click="(menu = 1)">Ratios
+</button>
+
+<button class="border border-neutral-600 p-2 rounded hover:scale-125 transition delay-50"
+        v-bind:class="(menu === 2)?'scale-125':''" @click="(menu = 2)">Répartition
+</button>
+-->
   </div>
   <!-- Formulaire -->
   <template class="flex flex-col" v-if="menu === 0">
@@ -182,42 +185,15 @@
     </div>
   </template>
   -->
-  <!-- Répartition -->
-  <template v-if="menu === 2">
-    <div v-if="(userRole >= 80)">
-      <p class="text-xl text-red-600">Fonctionnel mais attention! (répartition déjà faite)</p>
-      <div>Objets à répartir</div>
-      <form @submit.prevent="addRepartition" class="mt-16">
-        <div class="flex">
-          <select multiple>
-            <template v-for="objet in instancesObjetsGroup">
-              <option :value="objet" v-if="!objet.nombre <=  0"
-                      @click="addObjetRepartition(objet.id)">
-                {{ objet.libelle }}
-              </option>
-            </template>
-          </select>
-          <select multiple class="h-64">
-            <option v-for="joueur in joueurs" :value="joueur"
-                    @click="addJoueurRepartition(joueur.id)">
-              {{ joueur.pseudo }}
-            </option>
-          </select>
-          <button>Donner</button>
-        </div>
-      </form>
-
-      <div> {{ repartitionJoueur }}</div>
-      <div> {{ repartitionObjet }}</div>
-    </div>
-  </template>
 </template>
 
 
 <script>
 import axios from "axios";
+import NavBar from "@/App.vue";
 
 export default {
+  components: {NavBar},
   data() {
     return {
       joueurs: [],
@@ -238,7 +214,7 @@ export default {
       instancesObjets: [],
       instancesObjetsGroup: [],
       instancesParticipants: [],
-      menu: 10,
+      menu: 0,
 
       axiosRepartition: [],
       axiosRepartitionGroup: [],

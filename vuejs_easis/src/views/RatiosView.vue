@@ -1,20 +1,55 @@
 <template>
-
-  <div class="flex justify-center mb-4">
-    <div>
-      <input
-          class="mt-[0.3rem] mr-2 h-3.5 w-8 appearance-none rounded-[0.4375rem] bg-neutral-300 before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:content-[''] after:absolute after:z-[2] after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-100 after:shadow-[0_0px_3px_0_rgb(0_0_0_/_7%),_0_2px_2px_0_rgb(0_0_0_/_4%)] after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-primary checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.0625rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none checked:after:bg-primary checked:after:shadow-[0_3px_1px_-2px_rgba(0,0,0,0.2),_0_2px_2px_0_rgba(0,0,0,0.14),_0_1px_5px_0_rgba(0,0,0,0.12)] checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[3px_-1px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-5 focus:after:w-5 focus:after:rounded-full focus:after:content-[''] checked:focus:border-primary checked:focus:bg-primary checked:focus:before:ml-[1.0625rem] checked:focus:before:scale-100 checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
-          type="checkbox" role="switch" id="flexSwitchCheckDefault" @click="switchCardStatus = !switchCardStatus"/>
-      <label class="inline-block pl-[0.15rem] hover:cursor-pointer" for="flexSwitchCheckDefault"></label>
+  <div class="absolute left-32 top-32">
+    <div class="flex flex-col justify-center items-center">
+      <p class="font-semibold mb-2 underline">Attribuer un objet</p>
+      <svg @click="repartitionModal = !repartitionModal" xmlns="http://www.w3.org/2000/svg" fill="none"
+           viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+           class="w-8 h-8 hover:scale-125 transition delay-50">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
     </div>
-    <div>
-      <select v-model="switchCardType">
-        <option v-for="objet in switchCardTypeList" v-bind:value="objet">
-          {{ objet.toUpperCase() }}
-        </option>
-      </select>
+    <div class="flex justify-center mb-4 mt-10 flex flex-col justify-center items-center">
+      <p class="font-semibold mb-2 underline">Filtrer les objets</p>
+      <div class="flex">
+        <div>
+          <input
+              class="mt-[0.3rem] mr-2 h-3.5 w-8 appearance-none rounded-[0.4375rem] bg-neutral-300 before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:content-[''] after:absolute after:z-[2] after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-100 after:shadow-[0_0px_3px_0_rgb(0_0_0_/_7%),_0_2px_2px_0_rgb(0_0_0_/_4%)] after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-primary checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.0625rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none checked:after:bg-primary checked:after:shadow-[0_3px_1px_-2px_rgba(0,0,0,0.2),_0_2px_2px_0_rgba(0,0,0,0.14),_0_1px_5px_0_rgba(0,0,0,0.12)] checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[3px_-1px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-5 focus:after:w-5 focus:after:rounded-full focus:after:content-[''] checked:focus:border-primary checked:focus:bg-primary checked:focus:before:ml-[1.0625rem] checked:focus:before:scale-100 checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
+              type="checkbox" role="switch" id="flexSwitchCheckDefault" @click="switchCardStatus = !switchCardStatus"/>
+          <label class="inline-block pl-[0.15rem] hover:cursor-pointer" for="flexSwitchCheckDefault"></label>
+        </div>
+        <div>
+          <select v-model="switchCardType">
+            <option v-for="objet in switchCardTypeList" v-bind:value="objet">
+              {{ objet.toUpperCase() }}
+            </option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
+  <template v-if="repartitionModal">
+    <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+      <div class="fixed inset-0 bg-black bg-opacity-75 transition-opacity"></div>
+
+      <div class="fixed inset-0 z-10 overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div
+              class="relative transform overflow-hidden rounded-lg bg-neutral-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+            <div class="bg-neutral-900 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              Répartition des objets
+            </div>
+            <Repartition></Repartition>
+            <div class="bg-neutral-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+              <button type="button" @click="repartitionModal = !repartitionModal"
+                      class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">
+                Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
   <div class="flex flex-col justify-center items-center">
     <div
         class="grid grid-cols-5 md:w-2/4 w-screen text-xs md:text-base bg-gradient-to-b from-neutral-700 to-neutral-800 rounded-t">
@@ -110,8 +145,10 @@
 
 
 import axios from "axios";
+import Repartition from "@/components/Repartition.vue";
 
 export default {
+  components: {Repartition},
   data() {
     return {
       axiosJoueurs: [],
@@ -120,12 +157,13 @@ export default {
       axiosObjets: [],
       joueursParticipationInstances: [],
       objetSubtype: [],
-
+      // modal
+      repartitionModal: false,
       // filter
       switchCardStatus: false,
       switchCardType: null,
       switchCardTypeList: [
-        'thorn','electric', 'fire', 'land', 'lava', 'wind', 'volt', 'water', 'familier'
+        'thorn', 'electric', 'fire', 'land', 'lava', 'wind', 'volt', 'water', 'familier'
       ]
     };
   },
@@ -182,8 +220,7 @@ export default {
         })
 
         this.axiosObjets.forEach(objet => {
-          if (objet.id === joueur.sub_type)
-          {
+          if (objet.id === joueur.sub_type) {
             joueur.sub_type_text = objet.sub_type;
             joueur.icon = objet.icon;
           }
