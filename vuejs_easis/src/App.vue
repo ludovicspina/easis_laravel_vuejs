@@ -7,13 +7,13 @@ import LateralBar from "@/components/LateralBar.vue";
 <template>
 
   <div style="font-family: 'Maven Pro', sans-serif;">
-      <div class="bg-gradient-to-b from-neutral-800 to-neutral-900">
+      <div class="bg-black bg-opacity-90 mb-10 border-b-2 border-amber-300">
         <NavBar></NavBar>
-        <div class="h-6"></div>
       </div>
       <RouterView/>
   </div>
 </template>
 
 <style scoped>
+
 </style>

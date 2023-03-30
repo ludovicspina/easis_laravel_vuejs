@@ -1,5 +1,5 @@
 <template>
-  <div v-if="(userRole >= 80)" class="bg-neutral-800 flex justify-center gap-2 mx-4 py-4 h-48">
+  <div v-if="(userRole >= 80)" class="bg-black flex justify-center gap-2 mx-4 py-4 h-48">
     <select multiple>
       <template v-for="objet in packedRepartition">
         <option @click="setObjet(objet)" v-if="objet.nombre > 0">({{ objet.nombre }}){{ objet.libelle }}</option>
@@ -12,15 +12,20 @@
     </select>
     <div class="flex justify-center items-center">
       <button type="button" @click="addRepartition"
-              class="inline-flex w-full justify-center rounded-md bg-green-600 flex px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">
+              style="text-shadow: 1px 1px 2px white;" class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800">
         Ajouter
       </button>
     </div>
   </div>
 
-  <div class="gap-6 flex justify-center items-center bg-neutral-800">
+  <div class="gap-6 flex justify-center items-center bg-black text-amber-200">
     <div>{{ selectedObjet.libelle }}</div>
-    <div>-></div>
+    <div class="border border-amber-300 rounded">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="fill-amber-300 stroke-amber-300 w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+      </svg>
+
+    </div>
     <div>{{ selectedJoueur.pseudo }}</div>
   </div>
 </template>
