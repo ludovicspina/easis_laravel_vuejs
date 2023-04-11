@@ -151,6 +151,7 @@
       </div>
     </div>
   </div>
+  {{ joueursParticipationInstances }}
 </template>
 <script>
 

@@ -99,13 +99,14 @@ class InstancesController extends Controller
         $instance = DB::table('instances')->insertGetId([
             'date' => $request->input('date'),
             'heure' => $request->input('heure'),
+            'type_instance' => $request->input('type_instance'),
         ]);
 
 
         foreach ($participants as $participant) {
             DB::table('instance_joueur')->insert([
                 'id_instance' => $instance,
-                'id_joueur' => $participant
+                'id_joueur' => $participant,
             ]);
         }
 

@@ -6,19 +6,36 @@
 
         <div class="flex flex-col gap-2 justify-center items-center">
           <div class="flex flex-col">
-            <input v-model="date" type="date" style="text-shadow: 1px 1px 2px white;" class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800" required>
+            <input v-model="date" type="date" style="text-shadow: 1px 1px 2px white;"
+                   class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800"
+                   required>
           </div>
           <div class="flex flex-col">
-            <input v-model="heure" type="time" style="text-shadow: 1px 1px 2px white;" class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800" required>
+            <input v-model="heure" type="time" style="text-shadow: 1px 1px 2px white;"
+                   class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800"
+                   required>
           </div>
           <div class="flex justify-center">
-            <button type="submit" style="text-shadow: 1px 1px 2px white;" class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800">
+            <button type="submit" style="text-shadow: 1px 1px 2px white;"
+                    class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800">
               Valider
             </button>
           </div>
         </div>
 
-        <div class="col-span-3 flex justify-center text-xs grid grid-cols-4 gap-2 bg-black bg-opacity-90 p-3 rounded-xl border-2 border-amber-300">
+        <div>
+          <select v-model="type_instance" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          {{ type_instance}}
+        </div>
+
+        <div
+            class="col-span-3 flex justify-center text-xs grid grid-cols-4 gap-2 bg-black bg-opacity-90 p-3 rounded-xl border-2 border-amber-300">
           <a class="cursor-pointer hover:scale-110 transition delay-50 flex justify-center items-center"
              v-for="objet in dungeonItems"
              @click="addObjetListing(objet)">
@@ -27,7 +44,8 @@
           </a>
         </div>
 
-        <div class="col-span-2 flex justify-center text-black bg-black bg-opacity-90 rounded-xl border-2 border-amber-300">
+        <div
+            class="col-span-2 flex justify-center text-black bg-black bg-opacity-90 rounded-xl border-2 border-amber-300">
           <select multiple class="w-80 bg-transparent border-none text-neutral-200">
             <option v-for="joueur in joueurs" :value="joueur"
                     @click="addJoueurListing(joueur)">
@@ -79,7 +97,10 @@
     <div class="grid grid-cols-2 m-2">
       <div v-for="instance in instances">
         <div class="border p-2 bg-black bg-opacity-80 border-amber-300 rounded m-2">
-          <div class="text-xl underline font-bold text-amber-200">Instance du {{ instance.date }} à {{ instance.heure }}</div>
+          <div class="text-xl underline font-bold text-amber-200">Instance du {{ instance.date }} à {{
+              instance.heure
+            }}
+          </div>
           <div class="flex gap-2">
             <div class="font-semibold text-amber-300">Réalisée par :</div>
             <template v-for="participant in instancesParticipants" class="flex gap-2">
@@ -143,6 +164,8 @@ export default {
 
       axiosRepartition: [],
       axiosRepartitionGroup: [],
+
+      type_instance: [],
 
       repartitionJoueur: 0,
       repartitionObjet: 0,
@@ -323,6 +346,7 @@ export default {
         heure: this.heure,
         participants: this.participants,
         objets: this.objets,
+        type_instance: this.type_instance,
       })
           .then((response) => {
             console.log(response);
@@ -338,6 +362,7 @@ export default {
       this.objets = [];
       this.participantsShow = [];
       this.objetsShow = [];
+      this.type_instance = [];
     }
     ,
     // ajout de répartition à un joueur
