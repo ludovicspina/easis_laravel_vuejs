@@ -293,7 +293,7 @@ export default {
       })
     },
     calcRatio(joueur) {
-      return ((((joueur.carte_d * 5) + (joueur.carte_c * 10) + (joueur.carte_b * 20) + (joueur.carte_a * 50) + (joueur.familier_f * 2) + (joueur.familier_e * 2) + (joueur.familier_d * 4) + (joueur.familier_c * 8) + (joueur.familier_b * 12) + (joueur.familier_a * 16) + (joueur.familier_s * 20)) / joueur.nombre_instances) * 100).toFixed(2);
+      return ((((joueur.carte_d * 5) + (joueur.carte_c * 10) + (joueur.carte_b * 20) + (joueur.carte_a * 50) + (joueur.familier_f * 1) + (joueur.familier_e * 2) + (joueur.familier_d * 3) + (joueur.familier_c * 8) + (joueur.familier_b * 12) + (joueur.familier_a * 15) + (joueur.familier_s * 18)) / joueur.nombre_instances) * 100).toFixed(2);
     },
     fusionJoueurSelection() {
       this.axiosJoueurs.forEach(joueur => {
