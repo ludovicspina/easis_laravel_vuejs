@@ -1,4 +1,49 @@
 <template>
+
+  <div class="grid grid-cols-8">
+    <div class="flex flex-col gap-1 bg-neutral-900 h-screen overflow-y-auto">
+      <template v-for="instance in instances">
+        <div class="bg-neutral-900 p-2 hover:bg-neutral-800 transition delay-[5ms] cursor-pointer"
+             @click="instanceCheck = instance.id"> {{ instance.date }} {{ instance.heure }} - {{ instance.id }}
+        </div>
+      </template>
+    </div>
+    <div class="col-span-7 bg-neutral-900 bg-opacity-90">
+      <template v-if="instanceCheck !== 0">
+        <template v-for="instance in instances">
+          <template v-if="instance.id === instanceCheck">
+            <div class="text-center underline text-2xl mt-2">Instance du {{ instance.date }} à {{ instance.heure }}
+            </div>
+            <div class="text-center text-lg">Identifiant {{ instance.id }}</div>
+
+            <div>
+              <div class="text-xl ml-2">Participants</div>
+              <div class="flex ml-6 gap-2">
+                <template v-for="participant in instancesParticipants">
+                  <div v-if="participant.id_instance === instance.id">{{ participant.pseudo }}</div>
+                </template>
+              </div>
+            </div>
+
+            <div>
+              <div class="text-xl ml-2 mt-2">Objets obtenus</div>
+              <div class="flex ml-6 gap-2">
+                <template v-for="objet in instancesObjets">
+                  <img v-if="objet.id_instance === instance.id"
+                       class="h-5 w-5"
+                       :src="objet.icon" alt="{{ objet.icon }}">
+                  <div v-if="objet.id_instance === instance.id">{{ objet.libelle }}</div>
+                </template>
+              </div>
+            </div>
+          </template>
+        </template>
+      </template>
+    </div>
+
+  </div>
+
+
   <!-- Formulaire -->
   <template class="flex flex-col" v-if="menu === 0">
     <form @submit.prevent="addInstance" v-if="userRole >= 80" class="mt-16">
@@ -31,7 +76,7 @@
             <option value="4">4</option>
             <option value="5">5</option>
           </select>
-          {{ type_instance}}
+          {{ type_instance }}
         </div>
 
         <div
@@ -169,6 +214,8 @@ export default {
 
       repartitionJoueur: 0,
       repartitionObjet: 0,
+
+      instanceCheck: 0,
     };
   },
 
