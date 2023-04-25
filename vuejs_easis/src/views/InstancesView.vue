@@ -6,7 +6,7 @@
   </div>
   <div class="grid grid-cols-8 mx-8">
     <div class="flex flex-col gap-1 bg-neutral-900 h-[45em] overflow-y-auto">
-      <template v-if="userRole >= 80">
+      <template v-if="userRole >= 50">
         <div class="bg-neutral-900 p-2 hover:bg-neutral-800 transition delay-[5ms] cursor-pointer"
              @click="instanceCheck ='add'"> Ajouter une instance
         </div>
@@ -50,7 +50,7 @@
         </template>
       </template>
       <template v-if="instanceCheck === 'add'">
-        <template v-if="userRole >= 80">
+        <template v-if="userRole >= 50">
           <template class="flex flex-col" v-if="menu === 0">
             <form @submit.prevent="addInstance" v-if="userRole >= 80" class="mt-16">
               <div class="flex justify-evenly">
