@@ -16,6 +16,7 @@ class InstancesController extends Controller
             ->join('joueurs', 'joueurs.id', '=', 'instance_joueur.id_joueur')
             ->join('instance_objet', 'instance_objet.id_instance', '=', 'instances.id')
             ->join('objets', 'objets.id', '=', 'instance_objet.id_objet')
+            ->orderBy("id", "desc")
             ->get();
 
         return response()->json($instances);
