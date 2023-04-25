@@ -6,7 +6,7 @@
       <a href="../" class="hover:scale-125 transition delay-50 text-neutral-200">Accueil</a>
       <a v-if="userRole >= 60" href="../cdg" class="hover:scale-125 transition delay-50 text-neutral-200">Coffre de
         guilde</a>
-      <a v-if="userRole >= 60" href="../instances" class="hover:scale-125 transition delay-50 text-neutral-200">Instances</a>
+      <ac href="../instances" class="hover:scale-125 transition delay-50 text-neutral-200">Instances</ac>
       <a href="../instances/ratios"
          class="hover:scale-125 transition delay-50 text-neutral-200">Ratios</a>
     </a>

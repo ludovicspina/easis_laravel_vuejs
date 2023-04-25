@@ -6,9 +6,11 @@
   </div>
   <div class="grid grid-cols-8 mx-8">
     <div class="flex flex-col gap-1 bg-neutral-900 h-[45em] overflow-y-auto">
-      <div class="bg-neutral-900 p-2 hover:bg-neutral-800 transition delay-[5ms] cursor-pointer"
-           @click="instanceCheck ='add'"> Ajouter une instance
-      </div>
+      <template v-if="userRole >= 80">
+        <div class="bg-neutral-900 p-2 hover:bg-neutral-800 transition delay-[5ms] cursor-pointer"
+             @click="instanceCheck ='add'"> Ajouter une instance
+        </div>
+      </template>
       <template v-for="instance in instances">
         <div class="bg-neutral-900 p-2 hover:bg-neutral-800 transition delay-[5ms] cursor-pointer"
              @click="instanceCheck = instance.id"> {{ instance.date }} {{ instance.heure }} - {{ instance.id }}
@@ -48,104 +50,106 @@
         </template>
       </template>
       <template v-if="instanceCheck === 'add'">
-        <template class="flex flex-col" v-if="menu === 0">
-          <form @submit.prevent="addInstance" v-if="userRole >= 80" class="mt-16">
-            <div class="flex justify-evenly">
+        <template v-if="userRole >= 80">
+          <template class="flex flex-col" v-if="menu === 0">
+            <form @submit.prevent="addInstance" v-if="userRole >= 80" class="mt-16">
+              <div class="flex justify-evenly">
 
-              <div class="flex flex-col gap-2 justify-center items-center">
-                <div class="flex flex-col">
-                  <input v-model="date" type="date" style="text-shadow: 1px 1px 2px white;"
-                         class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800"
-                         required>
+                <div class="flex flex-col gap-2 justify-center items-center">
+                  <div class="flex flex-col">
+                    <input v-model="date" type="date" style="text-shadow: 1px 1px 2px white;"
+                           class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800"
+                           required>
+                  </div>
+                  <div class="flex flex-col">
+                    <input v-model="heure" type="time" style="text-shadow: 1px 1px 2px white;"
+                           class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800"
+                           required>
+                  </div>
+                  <div class="flex justify-center">
+                    <button type="submit" style="text-shadow: 1px 1px 2px white;"
+                            class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800">
+                      Valider
+                    </button>
+                  </div>
                 </div>
-                <div class="flex flex-col">
-                  <input v-model="heure" type="time" style="text-shadow: 1px 1px 2px white;"
-                         class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800"
-                         required>
+
+                <div>
+                  <select v-model="type_instance" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                  {{ type_instance }}
                 </div>
-                <div class="flex justify-center">
-                  <button type="submit" style="text-shadow: 1px 1px 2px white;"
-                          class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800">
-                    Valider
-                  </button>
+
+                <div
+                    class="col-span-3 flex justify-center text-xs grid grid-cols-4 gap-2 bg-black bg-opacity-90 p-3 rounded-xl border-2 border-amber-300">
+                  <a class="cursor-pointer hover:scale-110 transition delay-50 flex justify-center items-center"
+                     v-for="objet in dungeonItems"
+                     @click="addObjetListing(objet)">
+                    <img class="text-center h-6 w-6 flex justify-center items-center" :src="objet.icon"
+                         alt="{{ objet.icon }}">
+                    <div class="col-span-2 text-center flex justify-center items-center">{{ objet.libelle }}</div>
+                  </a>
+                </div>
+
+                <div
+                    class="col-span-2 flex justify-center text-black bg-black bg-opacity-90 rounded-xl border-2 border-amber-300">
+                  <select multiple class="w-80 bg-transparent border-none text-neutral-200">
+                    <option v-for="joueur in joueurs" :value="joueur"
+                            @click="addJoueurListing(joueur)">
+                      {{ joueur.pseudo }}
+                    </option>
+                  </select>
                 </div>
               </div>
+            </form>
 
-              <div>
-                <select v-model="type_instance" required>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-                {{ type_instance }}
-              </div>
 
-              <div
-                  class="col-span-3 flex justify-center text-xs grid grid-cols-4 gap-2 bg-black bg-opacity-90 p-3 rounded-xl border-2 border-amber-300">
-                <a class="cursor-pointer hover:scale-110 transition delay-50 flex justify-center items-center"
-                   v-for="objet in dungeonItems"
-                   @click="addObjetListing(objet)">
-                  <img class="text-center h-6 w-6 flex justify-center items-center" :src="objet.icon" alt="{{ objet.icon }}">
-                  <div class="col-span-2 text-center flex justify-center items-center">{{ objet.libelle }}</div>
-                </a>
-              </div>
-
-              <div
-                  class="col-span-2 flex justify-center text-black bg-black bg-opacity-90 rounded-xl border-2 border-amber-300">
-                <select multiple class="w-80 bg-transparent border-none text-neutral-200">
-                  <option v-for="joueur in joueurs" :value="joueur"
-                          @click="addJoueurListing(joueur)">
-                    {{ joueur.pseudo }}
-                  </option>
-                </select>
+            <div class="flex justify-center mt-6 mb-6">
+              <div class="border-2 border-amber-300 p-2 bg-black bg-opacity-90 rounded-xl">
+                <div class="text-xl underline font-bold text-amber-200">Instance du {{ date }} à {{ heure }}</div>
+                <div class="flex gap-2">
+                  <div class="font-semibold text-amber-300">Réalisée par :</div>
+                  <div v-for="(participant, index) in participantsShow" class="flex gap-2">
+                    <div class="text-white">{{ participant.pseudo }}</div>
+                    <button @click="removeJoueurListing(index)" class="hover:scale-125 transition delay-50">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                           stroke="currentColor" class="stroke-red-600 w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                      </svg>
+                    </button>
+                    ,
+                  </div>
+                </div>
+                <div class="flex gap-2">
+                  <div class="font-semibold text-amber-300">Loots obtenus :</div>
+                  <div v-for="(objet, index) in objetsShow" class="flex gap-2">
+                    <img class="text-center h-6 w-6 flex justify-center items-center" :src="objet.icon"
+                         alt="{{ objet.icon }}">
+                    <div class="text-white">{{ objet.libelle }}</div>
+                    <button @click="removeObjetListing(objet)" class="hover:scale-125 transition delay-50">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                           stroke="currentColor" class="stroke-red-600 w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                      </svg>
+                    </button>
+                    ,
+                  </div>
+                </div>
               </div>
             </div>
-          </form>
-
-
-          <div class="flex justify-center mt-6 mb-6">
-            <div class="border-2 border-amber-300 p-2 bg-black bg-opacity-90 rounded-xl">
-              <div class="text-xl underline font-bold text-amber-200">Instance du {{ date }} à {{ heure }}</div>
-              <div class="flex gap-2">
-                <div class="font-semibold text-amber-300">Réalisée par :</div>
-                <div v-for="(participant, index) in participantsShow" class="flex gap-2">
-                  <div class="text-white">{{ participant.pseudo }}</div>
-                  <button @click="removeJoueurListing(index)" class="hover:scale-125 transition delay-50">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="stroke-red-600 w-4 h-4">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-                    </svg>
-                  </button>
-                  ,
-                </div>
-              </div>
-              <div class="flex gap-2">
-                <div class="font-semibold text-amber-300">Loots obtenus :</div>
-                <div v-for="(objet, index) in objetsShow" class="flex gap-2">
-                  <img class="text-center h-6 w-6 flex justify-center items-center" :src="objet.icon" alt="{{ objet.icon }}">
-                  <div class="text-white">{{ objet.libelle }}</div>
-                  <button @click="removeObjetListing(objet)" class="hover:scale-125 transition delay-50">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="stroke-red-600 w-4 h-4">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-                    </svg>
-                  </button>
-                  ,
-                </div>
-              </div>
-            </div>
-          </div>
+          </template>
         </template>
       </template>
     </div>
 
   </div>
-
-
 
 
 </template>
@@ -187,7 +191,7 @@ export default {
       repartitionJoueur: 0,
       repartitionObjet: 0,
 
-      instanceCheck: "add",
+      instanceCheck: "0",
 
       nombreInstances: 0,
       nombreJoueurs: 0,
