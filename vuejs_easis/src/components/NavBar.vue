@@ -4,8 +4,6 @@
     <div></div>
     <a class="flex justify-center gap-5">
       <a href="../" class="hover:scale-125 transition delay-50 text-neutral-200">Accueil</a>
-      <a v-if="userRole >= 60" href="../cdg" class="hover:scale-125 transition delay-50 text-neutral-200">Coffre de
-        guilde</a>
       <a href="../instances" class="hover:scale-125 transition delay-50 text-neutral-200">Instances</a>
       <a href="../instances/ratios"
          class="hover:scale-125 transition delay-50 text-neutral-200">Ratios</a>
