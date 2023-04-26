@@ -1,13 +1,11 @@
 <template>
 
-  {{ userRole }}
-
-  <div class="mx-8 bg-black flex justify-center gap-10">
+  <div class="mx-8 bg-black flex justify-center gap-10 border-x-2 border-t-2 border-amber-300">
     <div>Nombre d'instance : {{ nombreInstances }}</div>
     <div>Nombre joueurs : {{ nombreJoueurs }}</div>
     <div>Nombre objets : {{ nombreObjets }}</div>
   </div>
-  <div class="grid grid-cols-8 mx-8">
+  <div class="grid grid-cols-8 mx-8 border-x-2 border-b-2 border-amber-300">
     <div class="flex flex-col gap-1 bg-neutral-900 h-[45em] overflow-y-auto">
       <template v-if="userRole >= 50">
         <div class="bg-neutral-900 p-2 hover:bg-neutral-800 transition delay-[5ms] cursor-pointer"
@@ -28,27 +26,51 @@
             <div class="text-center underline text-2xl mt-2">Instance du {{ instance.date }} à {{ instance.heure }}
             </div>
             <div class="text-center text-lg">Identifiant {{ instance.id }}</div>
+            <div class="flex justify-evenly">
+              <div>
+                <div>
+                  <div class="text-xl ml-2">Participants</div>
+                  <div class="flex ml-6 gap-2">
+                    <template v-for="participant in instancesParticipants">
+                      <div v-if="participant.id_instance === instance.id">{{ participant.pseudo }}</div>
+                    </template>
+                  </div>
+                </div>
 
-            <div>
-              <div class="text-xl ml-2">Participants</div>
+                <div>
+                  <div class="text-xl ml-2 mt-2">Objets obtenus</div>
+                  <div class="flex ml-6 gap-2">
+                    <template v-for="objet in instancesObjets">
+                      <img v-if="objet.id_instance === instance.id"
+                           class="h-5 w-5"
+                           :src="objet.icon" alt="{{ objet.icon }}">
+                      <div v-if="objet.id_instance === instance.id">{{ objet.libelle }}</div>
+                    </template>
+                  </div>
+                </div>
+              </div>
               <div class="flex ml-6 gap-2">
-                <template v-for="participant in instancesParticipants">
-                  <div v-if="participant.id_instance === instance.id">{{ participant.pseudo }}</div>
+                <template v-if="instance.type_instance === 1">
+                  <img src="/leren.png" class="border-2 rounded border-amber-300">
+                </template>
+                <template v-if="instance.type_instance === 2">
+                  <img src="/rhisi.png" class="border-2 rounded border-amber-300">
+                </template>
+                <template v-if="instance.type_instance === 3">
+                  <img src="/envy.png" class="border-2 rounded border-amber-300">
+                </template>
+                <template v-if="instance.type_instance === 4">
+                  <img src="/guardiane.png" class="border-2 rounded border-amber-300">
+                </template>
+                <template v-if="instance.type_instance === 5">
+                  <img src="/storm.png" class="border-2 rounded border-amber-300">
+                </template>
+                <template v-if="instance.type_instance === 0">
+                  <div>Pas d'instance définie</div>
                 </template>
               </div>
             </div>
 
-            <div>
-              <div class="text-xl ml-2 mt-2">Objets obtenus</div>
-              <div class="flex ml-6 gap-2">
-                <template v-for="objet in instancesObjets">
-                  <img v-if="objet.id_instance === instance.id"
-                       class="h-5 w-5"
-                       :src="objet.icon" alt="{{ objet.icon }}">
-                  <div v-if="objet.id_instance === instance.id">{{ objet.libelle }}</div>
-                </template>
-              </div>
-            </div>
           </template>
         </template>
       </template>
@@ -58,6 +80,18 @@
             <div class="flex justify-evenly">
 
               <div class="flex flex-col gap-2 justify-center items-center">
+                <div>
+                  <div style="text-shadow: 1px 1px 2px white;"
+                       class="hover:cursor-pointer bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium border-double border-[7px] border-neutral-800">
+                    <select v-model="type_instance" required class="px-1 hover:cursor-pointer bg-transparent border-none">
+                      <option value="1">Leren Chasm</option>
+                      <option value="2">Rhisis Catacomb</option>
+                      <option value="3">Envy Depths</option>
+                      <option value="4">Guardiane Sanctuary</option>
+                      <option value="5">Storm Peak</option>
+                    </select>
+                  </div>
+                </div>
                 <div class="flex flex-col">
                   <input v-model="date" type="date" style="text-shadow: 1px 1px 2px white;"
                          class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium px-3 border-double border-[7px] border-neutral-800"
@@ -74,17 +108,6 @@
                     Valider
                   </button>
                 </div>
-              </div>
-
-              <div>
-                <select v-model="type_instance" required>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-                {{ type_instance }}
               </div>
 
               <div
@@ -141,7 +164,7 @@
                             d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
                     </svg>
                   </button>
-                  ,
+
                 </div>
               </div>
             </div>
@@ -149,10 +172,7 @@
         </template>
       </template>
     </div>
-
   </div>
-
-
 </template>
 
 
