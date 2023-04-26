@@ -88,27 +88,27 @@
             <div class="flex justify-center">
               <div class="flex justify-center items-center gap-1 overflow-x-hidden">
 
-                <img :src="joueur.icon" :alt="joueur.icon" class="h-4">
+                <img :src="joueur.icon" :alt="joueur.icon" class="h-6">
                 <template v-if="joueur.familier === 's'">
-                  <img src="../../public/peteggs.png" class="h-4">
+                  <img src="../../public/peteggs.png" class="h-6">
                 </template>
                 <template v-if="joueur.familier === 'a'">
-                  <img src="../../public/petegga.png" class="h-4">
+                  <img src="../../public/petegga.png" class="h-6">
                 </template>
                 <template v-if="joueur.familier === 'b'">
-                  <img src="../../public/peteggb.png" class="h-4">
+                  <img src="../../public/peteggb.png" class="h-6">
                 </template>
                 <template v-if="joueur.familier === 'c'">
-                  <img src="../../public/peteggc.png" class="h-4">
+                  <img src="../../public/peteggc.png" class="h-6">
                 </template>
                 <template v-if="joueur.familier === 'd'">
-                  <img src="../../public/peteggd.png" class="h-4">
+                  <img src="../../public/peteggd.png" class="h-6">
                 </template>
                 <template v-if="joueur.familier === 'e'">
-                  <img src="../../public/petegge.png" class="h-4">
+                  <img src="../../public/petegge.png" class="h-6">
                 </template>
                 <template v-if="joueur.familier === 'f'">
-                  <img src="../../public/peteggf.png" class="h-4">
+                  <img src="../../public/peteggf.png" class="h-6">
                 </template>
                 {{ joueur.pseudo }}
 
