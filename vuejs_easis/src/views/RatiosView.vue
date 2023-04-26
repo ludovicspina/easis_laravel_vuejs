@@ -20,6 +20,23 @@
             </select>
           </div>
         </div>
+        <div class="flex justify-center items-center gap-3">
+          <div>
+            <input style="text-shadow: 1px 1px 2px white;"
+                   class="bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 hover:cursor-pointer rounded text-neutral-800 p-1.5 font-medium border-double border-[7px] border-neutral-800"
+                   type="checkbox" role="switch" id="flexSwitchFamCheckDefault"
+                   @click="switchFamStatus = !switchFamStatus"/>
+            <label class="inline-block pl-[0.15rem] hover:cursor-pointer" for="flexSwitchFamCheckDefault"></label>
+          </div>
+          <div style="text-shadow: 1px 1px 2px white;"
+               class="hover:cursor-pointer bg-gradient-to-b from-amber-200 via-amber-400 to-amber-200 hover:from-amber-100 hover:via-amber-300 hover:to-amber-100 rounded-xl text-neutral-800 font-medium border-double border-[7px] border-neutral-800">
+            <select v-model="switchFamType" class="px-1 hover:cursor-pointer bg-transparent border-none">
+              <option v-for="objet in switchFamTypeList" v-bind:value="objet">
+                {{ objet.toUpperCase() }}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="flex flex-col justify-center items-center" v-if="(userRole >= 80)">
         <button @click="repartitionModal = !repartitionModal" style="text-shadow: 1px 1px 2px white;"
@@ -83,7 +100,7 @@
       <div class="md:w-2/4 w-screen text-xs md:text-base bg-black bg-opacity-90 border-x-2 border-b-2 border-amber-300">
         <template v-for="joueur in joueursParticipationInstances">
           <div
-              v-if="((joueur.sub_type_text === switchCardType) && (switchCardStatus === true)) || switchCardStatus === false"
+              v-if="(((joueur.sub_type_text === switchCardType) && (switchCardStatus === true)) || ((joueur.familier === switchFamType) && (switchFamStatus === true)) || (switchCardStatus === false && switchFamStatus === false))"
               class="mb-1 grid grid-cols-5 hover:scale-125 cursor-pointer py-0.5 hover:bg-black hover:border hover:rounded hover:border-amber-300 hover:shadow hover:rounded transition delay-50">
             <div class="flex justify-center">
               <div class="flex justify-center items-center gap-1 overflow-x-hidden">
@@ -175,7 +192,6 @@
       </div>
     </div>
   </div>
-  {{ joueursParticipationInstances }}
 </template>
 <script>
 
@@ -199,7 +215,12 @@ export default {
       switchCardStatus: false,
       switchCardType: null,
       switchCardTypeList: [
-        'thorn', 'electric', 'fire', 'land', 'lava', 'wind', 'volt', 'water', 'familier'
+        'thorn', 'electric', 'fire', 'land', 'lava', 'wind', 'volt', 'water'
+      ],
+      switchFamStatus: false,
+      switchFamType: null,
+      switchFamTypeList: [
+        'f', 'e', 'd', 'c', 'b', 'a', 's'
       ]
     };
   },
@@ -239,6 +260,9 @@ export default {
     },
     addCardType(id) {
       this.switchCardType = id;
+    },
+    addFamType(id) {
+      this.switchFamType = id;
     },
     fusionJoueursParticipation() {
       this.axiosJoueurs.forEach(joueur => {
