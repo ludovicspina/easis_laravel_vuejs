@@ -8,6 +8,8 @@
       <sourceFolder url="file://$MODULE_DIR$/laravel_easis/tests" isTestSource="true" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/laravel_easis/tests/Feature" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/laravel_easis/tests/Unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/laravel_easis/vendor/laravel/tinker" />
       <excludeFolder url="file://$MODULE_DIR$/laravel_easis/vendor/laravel/serializable-closure" />
       <excludeFolder url="file://$MODULE_DIR$/laravel_easis/vendor/laravel/framework" />
