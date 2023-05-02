@@ -108,25 +108,25 @@
                   <img :src="joueur.icon" :alt="joueur.icon" class="h-6"></div>
                 <div v-else><img :src="joueur.icon" :alt="joueur.icon" class="h-6"></div>
                 <template v-if="joueur.familier === 's'">
-                  <img src="../../peteggs.png" class="h-6">
+                  <img src="../../public/peteggs.png" class="h-6">
                 </template>
                 <template v-if="joueur.familier === 'a'">
-                  <img src="../../petegga.png" class="h-6">
+                  <img src="../../public/petegga.png" class="h-6">
                 </template>
                 <template v-if="joueur.familier === 'b'">
-                  <img src="../../peteggb.png" class="h-6">
+                  <img src="../../public/peteggb.png" class="h-6">
                 </template>
                 <template v-if="joueur.familier === 'c'">
-                  <img src="../../peteggc.png" class="h-6">
+                  <img src="../../public/peteggc.png" class="h-6">
                 </template>
                 <template v-if="joueur.familier === 'd'">
-                  <img src="../../peteggd.png" class="h-6">
+                  <img src="../../public/peteggd.png" class="h-6">
                 </template>
                 <template v-if="joueur.familier === 'e'">
-                  <img src="../../petegge.png" class="h-6">
+                  <img src="../../public/petegge.png" class="h-6">
                 </template>
                 <template v-if="joueur.familier === 'f'">
-                  <img src="../../peteggf.png" class="h-6">
+                  <img src="../../public/peteggf.png" class="h-6">
                 </template>
                 {{ joueur.pseudo }}
 
