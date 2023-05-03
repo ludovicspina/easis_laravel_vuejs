@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CdgController;
+use App\Http\Controllers\API\DiscordController;
 use App\Http\Controllers\API\DonjonsController;
 use App\Http\Controllers\API\InstancesController;
 use App\Http\Controllers\API\JoueursController;
@@ -78,5 +79,10 @@ Route::get('/instance/items', [InstancesController::class, 'getDungeonsItems']);
 Route::get('/instance/repartition', [InstancesController::class, 'getRepartition']);
 
 Route::post('/instance/add-repartition', [InstancesController::class, 'addRepartition']);
+
+Route::get('/discord/joueurs', [DiscordController::class, 'index']);
+
+
+
 
 

@@ -247,10 +247,10 @@ export default {
       const response = await axios.get("http://api.etheron.fr/api/instances/participants");
       this.axiosParticipants = Object.assign([], response.data);
     },
-    async getJoueursData() {
-      const response = await axios.get("http://api.etheron.fr/api/joueurs");
-      this.axiosJoueurs = Object.assign([], response.data);
-    },
+      async getJoueursData() {
+        const response = await axios.get("http://api.etheron.fr/api/joueurs");
+        this.axiosJoueurs = Object.assign([], response.data);
+      },
     async getRepartitionData() {
       const response = await axios.get("http://api.etheron.fr/api/instance/repartition");
       this.axiosRepartition = Object.assign([], response.data);
